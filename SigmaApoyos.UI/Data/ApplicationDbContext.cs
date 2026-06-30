@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace SigmaApoyos.UI.Data
+namespace SigmaApoyos.UI.Data;
+
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    : SigmaApoyos.Infrastructure.Persistence.ApplicationDbContext(options)
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
-    {
-    }
 }

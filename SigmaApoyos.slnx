@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="SigmaApoyos.Application/SigmaApoyos.Application.csproj" />
+  <Project Path="SigmaApoyos.Domain/SigmaApoyos.Domain.csproj" />
+  <Project Path="SigmaApoyos.Infrastructure/SigmaApoyos.Infrastructure.csproj" />
   <Project Path="SigmaApoyos.UI/SigmaApoyos.UI.csproj" />
 </Solution>

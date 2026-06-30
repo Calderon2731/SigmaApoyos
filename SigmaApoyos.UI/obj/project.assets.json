@@ -1117,6 +1117,46 @@
         "build": {
           "buildTransitive/net8.0/_._": {}
         }
+      },
+      "SigmaApoyos.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "SigmaApoyos.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/SigmaApoyos.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SigmaApoyos.Application.dll": {}
+        }
+      },
+      "SigmaApoyos.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/SigmaApoyos.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SigmaApoyos.Domain.dll": {}
+        }
+      },
+      "SigmaApoyos.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "10.0.9",
+          "Microsoft.EntityFrameworkCore": "10.0.9",
+          "Microsoft.EntityFrameworkCore.SqlServer": "10.0.9",
+          "SigmaApoyos.Application": "1.0.0",
+          "SigmaApoyos.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/SigmaApoyos.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SigmaApoyos.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -3342,6 +3382,21 @@
         "system.security.cryptography.protecteddata.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "SigmaApoyos.Application/1.0.0": {
+      "type": "project",
+      "path": "../SigmaApoyos.Application/SigmaApoyos.Application.csproj",
+      "msbuildProject": "../SigmaApoyos.Application/SigmaApoyos.Application.csproj"
+    },
+    "SigmaApoyos.Domain/1.0.0": {
+      "type": "project",
+      "path": "../SigmaApoyos.Domain/SigmaApoyos.Domain.csproj",
+      "msbuildProject": "../SigmaApoyos.Domain/SigmaApoyos.Domain.csproj"
+    },
+    "SigmaApoyos.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../SigmaApoyos.Infrastructure/SigmaApoyos.Infrastructure.csproj",
+      "msbuildProject": "../SigmaApoyos.Infrastructure/SigmaApoyos.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3351,7 +3406,9 @@
       "Microsoft.AspNetCore.Identity.UI >= 10.0.9",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.9",
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.9",
-      "Microsoft.EntityFrameworkCore.Tools >= 10.0.9"
+      "Microsoft.EntityFrameworkCore.Tools >= 10.0.9",
+      "SigmaApoyos.Application >= 1.0.0",
+      "SigmaApoyos.Infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3387,7 +3444,14 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Git\\SigmaApoyos\\SigmaApoyos.Application\\SigmaApoyos.Application.csproj": {
+              "projectPath": "D:\\Git\\SigmaApoyos\\SigmaApoyos.Application\\SigmaApoyos.Application.csproj"
+            },
+            "D:\\Git\\SigmaApoyos\\SigmaApoyos.Infrastructure\\SigmaApoyos.Infrastructure.csproj": {
+              "projectPath": "D:\\Git\\SigmaApoyos\\SigmaApoyos.Infrastructure\\SigmaApoyos.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

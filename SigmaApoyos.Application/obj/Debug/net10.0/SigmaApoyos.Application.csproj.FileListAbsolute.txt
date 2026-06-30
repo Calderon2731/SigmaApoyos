@@ -1,0 +1,16 @@
+D:\Git\SigmaApoyos\SigmaApoyos.Application\bin\Debug\net10.0\SigmaApoyos.Application.deps.json
+D:\Git\SigmaApoyos\SigmaApoyos.Application\bin\Debug\net10.0\SigmaApoyos.Application.dll
+D:\Git\SigmaApoyos\SigmaApoyos.Application\bin\Debug\net10.0\SigmaApoyos.Application.pdb
+D:\Git\SigmaApoyos\SigmaApoyos.Application\bin\Debug\net10.0\SigmaApoyos.Domain.dll
+D:\Git\SigmaApoyos\SigmaApoyos.Application\bin\Debug\net10.0\SigmaApoyos.Domain.pdb
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApoyos.Application.csproj.AssemblyReference.cache
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApoyos.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApoyos.Application.AssemblyInfoInputs.cache
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApoyos.Application.AssemblyInfo.cs
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApoyos.Application.csproj.CoreCompileInputs.cache
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApoyos.Application.sourcelink.json
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApo.D358E7F3.Up2Date
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApoyos.Application.dll
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\refint\SigmaApoyos.Application.dll
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\SigmaApoyos.Application.pdb
+D:\Git\SigmaApoyos\SigmaApoyos.Application\obj\Debug\net10.0\ref\SigmaApoyos.Application.dll

@@ -1,0 +1,11 @@
+﻿using SigmaApoyos.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SigmaApoyos.Application.Interfaces.Repositories.Expedientes;
+
+public interface IObtenerExpedientePorIdRepository
+{
+    Task<Expediente?> ObtenerPorIdAsync(string identificacionEstudiante, CancellationToken cancellationToken = default);
+}
