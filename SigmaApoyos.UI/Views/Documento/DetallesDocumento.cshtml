@@ -1,0 +1,55 @@
+@model SigmaApoyos.Application.DTOs.Documentos.DocumentoDto
+
+@{
+    ViewData["Title"] = "Detalle de documento";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Documento #@Model.IdDocumento</span>
+        <h1 class="page-title">@Model.TipoDocumento</h1>
+        <p class="page-subtitle">Archivo asociado al estudiante @Model.IdentificacionEstudiante.</p>
+    </div>
+    <span class="status-badge @(Model.Estado == "Activo" ? "status-active" : "status-inactive")">@Model.Estado</span>
+</div>
+
+<div class="surface-card overflow-hidden">
+    <div class="card-header-clean d-flex justify-content-between align-items-center gap-3">
+        <h2 class="h5 fw-bold mb-0">Información del archivo</h2>
+        <a class="btn btn-sm btn-primary" asp-action="DescargarDocumento" asp-route-id="@Model.IdDocumento">Descargar PDF</a>
+    </div>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="detail-label">Identificación del estudiante</span>
+            <span class="detail-value">@Model.IdentificacionEstudiante</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Tipo de documento</span>
+            <span class="type-badge">@Model.TipoDocumento</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Consecutivo</span>
+            <span class="detail-value">@Model.Consecutivo</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Fecha de subida</span>
+            <span class="detail-value">@Model.FechaSubida.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+        <div class="detail-item detail-wide">
+            <span class="detail-label">Ubicación del archivo</span>
+            <span class="detail-value">@Model.RutaArchivo</span>
+        </div>
+    </div>
+</div>
+
+<div class="form-actions mt-3">
+    @if (User.PuedeModificarDocumentos())
+    {
+        <a class="btn btn-primary" asp-action="EditarDocumento" asp-route-id="@Model.IdDocumento">Editar documento</a>
+    }
+    @if (User.PuedeEliminarDocumentos())
+    {
+        <a class="btn btn-outline-danger" asp-action="EliminarDocumento" asp-route-id="@Model.IdDocumento">Eliminar</a>
+    }
+    <a class="btn btn-outline-secondary" asp-action="ObtenerDocumentos">Volver al listado</a>
+</div>

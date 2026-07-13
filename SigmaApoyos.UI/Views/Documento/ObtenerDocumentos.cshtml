@@ -1,0 +1,75 @@
+@model IEnumerable<SigmaApoyos.Application.DTOs.Documentos.DocumentoDto>
+
+@{
+    ViewData["Title"] = "Documentos";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Archivo digital</span>
+        <h1 class="page-title">Documentos</h1>
+        <p class="page-subtitle">Consulta los archivos vinculados a los expedientes estudiantiles.</p>
+    </div>
+    @if (User.PuedeCrearDocumentos())
+    {
+        <a class="btn btn-primary" asp-action="CrearDocumento">+ Nuevo documento</a>
+    }
+</div>
+
+<div class="surface-card overflow-hidden">
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Documento</th>
+                        <th>Identificación estudiante</th>
+                        <th>Tipo</th>
+                        <th>Consecutivo</th>
+                        <th>Fecha de subida</th>
+                        <th>Estado</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var documento in Model)
+                    {
+                        <tr>
+                            <td><strong>#@documento.IdDocumento</strong></td>
+                            <td>@documento.IdentificacionEstudiante</td>
+                            <td><span class="type-badge">@documento.TipoDocumento</span></td>
+                            <td>@documento.Consecutivo</td>
+                            <td class="text-nowrap">@documento.FechaSubida.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <span class="status-badge @(documento.Estado == "Activo" ? "status-active" : "status-inactive")">@documento.Estado</span>
+                            </td>
+                            <td>
+                                <div class="table-actions justify-content-end">
+                                    <a class="btn btn-sm btn-outline-primary" asp-action="DetallesDocumento" asp-route-id="@documento.IdDocumento">Ver</a>
+                                    <a class="btn btn-sm btn-outline-primary" asp-action="DescargarDocumento" asp-route-id="@documento.IdDocumento">Descargar</a>
+                                    @if (User.PuedeModificarDocumentos())
+                                    {
+                                        <a class="btn btn-sm btn-outline-secondary" asp-action="EditarDocumento" asp-route-id="@documento.IdDocumento">Editar</a>
+                                    }
+                                    @if (User.PuedeEliminarDocumentos())
+                                    {
+                                        <a class="btn btn-sm btn-outline-danger" asp-action="EliminarDocumento" asp-route-id="@documento.IdDocumento">Eliminar</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-icon">PDF</div>
+            <h2>No hay documentos registrados</h2>
+            <p class="mb-0">Los archivos asociados a expedientes aparecerán aquí.</p>
+        </div>
+    }
+</div>

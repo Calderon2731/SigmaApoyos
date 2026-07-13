@@ -1,0 +1,88 @@
+@page
+@model SigmaApoyos.UI.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Crear usuario";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Nueva cuenta</span>
+        <h1 class="page-title">Crear usuario</h1>
+        <p class="page-subtitle">Registra a una persona y asigna su nivel de acceso al sistema.</p>
+    </div>
+</div>
+
+<form method="post">
+    <div class="surface-card">
+        <div class="card-header-clean">
+            <h2 class="h5 fw-bold mb-1">Datos del usuario</h2>
+            <p class="form-hint mb-0">La contraseña debe cumplir con los requisitos de seguridad configurados.</p>
+        </div>
+        <div class="card-body-comfort">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Input.Nombre"></label>
+                    <input class="form-control" asp-for="Input.Nombre" />
+                    <span asp-validation-for="Input.Nombre"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Input.PrimerApellido"></label>
+                    <input class="form-control" asp-for="Input.PrimerApellido" />
+                    <span asp-validation-for="Input.PrimerApellido"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Input.SegundoApellido"></label>
+                    <input class="form-control" asp-for="Input.SegundoApellido" />
+                    <span asp-validation-for="Input.SegundoApellido"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Input.Email"></label>
+                    <input class="form-control" asp-for="Input.Email" autocomplete="username" />
+                    <span asp-validation-for="Input.Email"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Input.Password"></label>
+                    <input class="form-control" asp-for="Input.Password" autocomplete="new-password" />
+                    <span asp-validation-for="Input.Password"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Input.ConfirmPassword"></label>
+                    <input class="form-control" asp-for="Input.ConfirmPassword" autocomplete="new-password" />
+                    <span asp-validation-for="Input.ConfirmPassword"></span>
+                </div>
+
+                @if (Model.Roles.Count == 1 && Model.Roles[0].Value == IdentityRoles.CoordinadorAcademico)
+                {
+                    <input asp-for="Input.RoleName" type="hidden" />
+                    <div class="col-md-6">
+                        <label class="form-label" asp-for="Input.RoleName"></label>
+                        <input class="form-control" value="@IdentityRoles.CoordinadorAcademico" readonly />
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-6">
+                        <label class="form-label" asp-for="Input.RoleName"></label>
+                        <select class="form-select" asp-for="Input.RoleName" asp-items="Model.Roles">
+                            <option value="">Seleccione un rol</option>
+                        </select>
+                        <span asp-validation-for="Input.RoleName"></span>
+                    </div>
+                }
+
+                <div class="col-12 form-actions">
+                    <button class="btn btn-primary" type="submit">Crear usuario</button>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a class="btn btn-outline-secondary" asp-area="" asp-controller="Usuario" asp-action="ObtenerUsuarios">Cancelar</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

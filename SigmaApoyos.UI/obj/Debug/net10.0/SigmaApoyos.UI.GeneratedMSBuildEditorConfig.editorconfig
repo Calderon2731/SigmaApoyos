@@ -31,8 +31,60 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Areas/Identity/Pages/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Areas/Identity/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Documento/CrearDocumento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRvXENyZWFyRG9jdW1lbnRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Documento/DetallesDocumento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRvXERldGFsbGVzRG9jdW1lbnRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Documento/EditarDocumento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRvXEVkaXRhckRvY3VtZW50by5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Documento/EliminarDocumento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRvXEVsaW1pbmFyRG9jdW1lbnRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Documento/ObtenerDocumentos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRvXE9idGVuZXJEb2N1bWVudG9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Expediente/CrearExpediente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZWRpZW50ZVxDcmVhckV4cGVkaWVudGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Expediente/DetallesExpediente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZWRpZW50ZVxEZXRhbGxlc0V4cGVkaWVudGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Expediente/EditarExpediente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZWRpZW50ZVxFZGl0YXJFeHBlZGllbnRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Expediente/EliminarExpediente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZWRpZW50ZVxFbGltaW5hckV4cGVkaWVudGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Expediente/ObtenerExpedientes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZWRpZW50ZVxPYnRlbmVyRXhwZWRpZW50ZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Home/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Home/Index.cshtml]
@@ -53,6 +105,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Usuario/EditarUsuario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xFZGl0YXJVc3VhcmlvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Usuario/ObtenerUsuarios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xPYnRlbmVyVXN1YXJpb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/_ViewImports.cshtml]

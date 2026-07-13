@@ -1,0 +1,65 @@
+@model SigmaApoyos.Application.DTOs.Documentos.CrearDocumentoDto
+
+@{
+    ViewData["Title"] = "Crear documento";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Nuevo archivo</span>
+        <h1 class="page-title">Crear documento</h1>
+        <p class="page-subtitle">Asocia un archivo PDF al expediente de un estudiante.</p>
+    </div>
+</div>
+
+<form asp-action="CrearDocumento" method="post" enctype="multipart/form-data">
+    <div class="surface-card">
+        <div class="card-header-clean">
+            <h2 class="h5 fw-bold mb-1">Información del documento</h2>
+            <p class="form-hint mb-0">El archivo debe estar en formato PDF.</p>
+        </div>
+        <div class="card-body-comfort">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="IdentificacionEstudiante"></label>
+                    <input class="form-control" asp-for="IdentificacionEstudiante" placeholder="Identificación del expediente" />
+                    <span asp-validation-for="IdentificacionEstudiante"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="TipoDocumentoId"></label>
+                    <select class="form-select" asp-for="TipoDocumentoId" asp-items="ViewBag.TiposDocumento">
+                        <option value="">Seleccione un tipo de documento</option>
+                    </select>
+                    <span asp-validation-for="TipoDocumentoId"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Consecutivo"></label>
+                    <input class="form-control" asp-for="Consecutivo" placeholder="Ejemplo: DOC-2026-001" />
+                    <span asp-validation-for="Consecutivo"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="IdEstado"></label>
+                    <select class="form-select" asp-for="IdEstado" asp-items="ViewBag.Estados">
+                        <option value="">Seleccione un estado</option>
+                    </select>
+                    <span asp-validation-for="IdEstado"></span>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="archivoPdf">Archivo PDF</label>
+                    <input class="form-control" type="file" id="archivoPdf" name="archivoPdf" accept=".pdf,application/pdf" />
+                    <div class="form-hint mt-2">Selecciona el documento que quedará asociado al expediente.</div>
+                    <span asp-validation-for="RutaArchivo"></span>
+                </div>
+                <div class="col-12 form-actions">
+                    <button class="btn btn-primary" type="submit">Crear documento</button>
+                    <a class="btn btn-outline-secondary" asp-action="ObtenerDocumentos">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

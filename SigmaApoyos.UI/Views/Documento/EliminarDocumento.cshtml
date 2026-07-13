@@ -1,0 +1,48 @@
+@model SigmaApoyos.Application.DTOs.Documentos.DocumentoDto
+
+@{
+    ViewData["Title"] = "Eliminar documento";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Acción irreversible</span>
+        <h1 class="page-title">Eliminar documento</h1>
+        <p class="page-subtitle">Confirma que seleccionaste el archivo correcto.</p>
+    </div>
+</div>
+
+<div class="surface-card danger-card overflow-hidden">
+    <div class="danger-banner">
+        <strong>¿Deseas eliminar definitivamente este documento?</strong>
+        <p class="mb-0 mt-1 small">Se eliminarán tanto el registro como el archivo PDF almacenado.</p>
+    </div>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="detail-label">Documento</span>
+            <span class="detail-value">#@Model.IdDocumento · @Model.TipoDocumento</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Identificación del estudiante</span>
+            <span class="detail-value">@Model.IdentificacionEstudiante</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Consecutivo</span>
+            <span class="detail-value">@Model.Consecutivo</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Estado</span>
+            <span class="detail-value">@Model.Estado</span>
+        </div>
+    </div>
+    <div class="card-body-comfort pt-3">
+        <a class="btn btn-sm btn-outline-primary mb-3" asp-action="DescargarDocumento" asp-route-id="@Model.IdDocumento">Revisar PDF antes de eliminar</a>
+        <form asp-action="ConfirmarEliminarDocumento" method="post">
+            <input type="hidden" name="id" value="@Model.IdDocumento" />
+            <div class="form-actions">
+                <button class="btn btn-danger" type="submit">Sí, eliminar documento</button>
+                <a class="btn btn-outline-secondary" asp-action="ObtenerDocumentos">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

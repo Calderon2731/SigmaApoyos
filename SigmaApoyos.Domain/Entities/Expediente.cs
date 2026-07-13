@@ -10,7 +10,7 @@ public class Expediente
 
     public string SegundoApellido { get; set; } = string.Empty;
 
-    public DateOnly FechaNacimiento { get; set; }
+    public DateTime FechaNacimiento { get; set; }
 
     public string NombreEncargado { get; set; } = string.Empty;
 

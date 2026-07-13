@@ -1,87 +1,174 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SigmaApoyos.Application.DTOs.Expedientes;
+using SigmaApoyos.Application.Interfaces.Services.Expediente.IActualizarExpedienteService;
+using SigmaApoyos.Application.Interfaces.Services.Expediente.ICrearExpedienteService;
+using SigmaApoyos.Application.Interfaces.Services.Expediente.IEliminarExpedienteService;
+using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedientePorIdService;
+using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedienteService;
+using SigmaApoyos.Infrastructure.Identity;
 
 namespace SigmaApoyos.UI.Controllers
 {
+    [Authorize(Roles = IdentityRoles.ExpedientesLectura)]
     public class ExpedienteController : Controller
     {
-        
-        // GET: ExpedienteController
-        public ActionResult ObtenerExpedientes()
-        {
-            List<CrearExpedienteDto> expedientes = new List<CrearExpedienteDto>();
+        private readonly IObtenerExpedienteService _obtenerExpedientesService;
+        private readonly IObtenerExpedientePorIdService _obtenerExpedientePorIdService;
+        private readonly IActualizarExpedienteService _actualizarExpedienteService;
+        private readonly ICrearExpedienteService _crearExpedienteService;
+        private readonly IEliminarExpedienteService _eliminarExpedienteService;
 
-            
-            return expedientes;
+        public ExpedienteController(
+            IObtenerExpedienteService obtenerExpedientesService,
+            IObtenerExpedientePorIdService obtenerExpedientePorIdService,
+            IActualizarExpedienteService actualizarExpedienteService,
+            ICrearExpedienteService crearExpedienteService,
+            IEliminarExpedienteService eliminarExpedienteService)
+        {
+            _obtenerExpedientesService = obtenerExpedientesService;
+            _obtenerExpedientePorIdService = obtenerExpedientePorIdService;
+            _actualizarExpedienteService = actualizarExpedienteService;
+            _crearExpedienteService = crearExpedienteService;
+            _eliminarExpedienteService = eliminarExpedienteService;
         }
 
-        // GET: ExpedienteController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> ObtenerExpedientes(string identificacion)
+        {
+            if (!string.IsNullOrWhiteSpace(identificacion))
+            {
+                var expediente = await _obtenerExpedientePorIdService.ObtenerPorIdentificacionAsync(identificacion);
+
+                var lista = new List<ExpedienteDto>();
+
+                if (expediente != null)
+                    lista.Add(expediente);
+
+                return View(lista);
+            }
+
+            var expedientes = await _obtenerExpedientesService.ObtenerTodosAsync();
+            return View(expedientes);
+        }
+
+        public async Task<IActionResult> DetallesExpediente(string identificacion)
+        {
+            var expediente = await _obtenerExpedientePorIdService.ObtenerPorIdentificacionAsync(identificacion);
+
+            if (expediente == null)
+            {
+                return NotFound();
+            }
+
+            return View(expediente);
+        }
+
+        [Authorize(Roles = IdentityRoles.ExpedientesCrear)]
+        public IActionResult CrearExpediente()
         {
             return View();
         }
 
-        // GET: ExpedienteController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ExpedienteController/Create
+        [Authorize(Roles = IdentityRoles.ExpedientesCrear)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> CrearExpediente(CrearExpedienteDto dto)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (!ModelState.IsValid)
+                {
+                    return View(dto);
+                }
+
+                bool seCreo = await _crearExpedienteService.CrearAsync(dto);
+
+                if (seCreo)
+                {
+                    return RedirectToAction(nameof(ObtenerExpedientes));
+                }
+
+                return View(dto);
             }
             catch
             {
-                return View();
+                return View(dto);
             }
         }
 
-        // GET: ExpedienteController/Edit/5
-        public ActionResult Edit(int id)
+        [Authorize(Roles = IdentityRoles.ExpedientesModificar)]
+        public async Task<IActionResult> EditarExpediente(string identificacion)
         {
-            return View();
+            var dto = await _actualizarExpedienteService.ObtenerParaEditarAsync(identificacion);
+
+            if (dto == null)
+            {
+                return NotFound();
+            }
+
+            return View(dto);
         }
 
-        // POST: ExpedienteController/Edit/5
+        [Authorize(Roles = IdentityRoles.ExpedientesModificar)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> EditarExpediente(UpdateExpedienteDto dto)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (!ModelState.IsValid)
+                {
+                    return View(dto);
+                }
+
+                bool seEdito = await _actualizarExpedienteService.ActualizarAsync(dto);
+
+                if (seEdito)
+                {
+                    return RedirectToAction(nameof(ObtenerExpedientes));
+                }
+
+                return View(dto);
             }
             catch
             {
-                return View();
+                return View(dto);
             }
         }
 
-        // GET: ExpedienteController/Delete/5
-        public ActionResult Delete(int id)
+        [Authorize(Roles = IdentityRoles.ExpedientesEliminar)]
+        public async Task<IActionResult> EliminarExpediente(string identificacion)
         {
-            return View();
+            var expediente = await _obtenerExpedientePorIdService.ObtenerPorIdentificacionAsync(identificacion);
+
+            if (expediente == null)
+            {
+                return NotFound();
+            }
+
+            return View(expediente);
         }
 
-        // POST: ExpedienteController/Delete/5
+        [Authorize(Roles = IdentityRoles.ExpedientesEliminar)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> ConfirmarEliminarExpediente(string identificacion)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                bool seElimino = await _eliminarExpedienteService.EliminarAsync(identificacion);
+
+                if (seElimino)
+                {
+                    return RedirectToAction(nameof(ObtenerExpedientes));
+                }
+
+                return RedirectToAction(nameof(EliminarExpediente), new { identificacion });
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(EliminarExpediente), new { identificacion });
             }
         }
     }

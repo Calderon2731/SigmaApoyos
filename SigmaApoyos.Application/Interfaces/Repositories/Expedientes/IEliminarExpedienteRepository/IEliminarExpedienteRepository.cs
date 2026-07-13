@@ -1,7 +1,4 @@
-﻿using SigmaApoyos.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SigmaApoyos.Domain.Entities;
 
 namespace SigmaApoyos.Application.Interfaces.Repositories.Expedientes.IEliminarExpedienteRepository
 {

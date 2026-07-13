@@ -1,0 +1,71 @@
+@model SigmaApoyos.Application.DTOs.Expedientes.ExpedienteDto
+
+@{
+    ViewData["Title"] = "Detalle de expediente";
+    var tipoAdecuacion = Model.IdTipoAdecuacion switch
+    {
+        1 => "Significativa",
+        2 => "No significativa",
+        3 => "De acceso",
+        _ => "No definida"
+    };
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Expediente @Model.IdentificacionEstudiante</span>
+        <h1 class="page-title">@Model.Nombre @Model.PrimerApellido @Model.SegundoApellido</h1>
+        <p class="page-subtitle">Información completa del estudiante y su adecuación.</p>
+    </div>
+    <span class="status-badge @(Model.IdEstado == 2 ? "status-active" : "status-inactive")">
+        @(Model.IdEstado == 2 ? "Activo" : "Inactivo")
+    </span>
+</div>
+
+<div class="surface-card overflow-hidden">
+    <div class="card-header-clean">
+        <h2 class="h5 fw-bold mb-0">Datos del expediente</h2>
+    </div>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="detail-label">Identificación</span>
+            <span class="detail-value">@Model.IdentificacionEstudiante</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Fecha de nacimiento</span>
+            <span class="detail-value">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Nombre del encargado</span>
+            <span class="detail-value">@Model.NombreEncargado</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Teléfono del encargado</span>
+            <span class="detail-value">@Model.TelefonoEncargado</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Tipo de adecuación</span>
+            <span class="type-badge">@tipoAdecuacion</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Estado</span>
+            <span class="detail-value">@(Model.IdEstado == 2 ? "Activo" : "Inactivo")</span>
+        </div>
+        <div class="detail-item detail-wide">
+            <span class="detail-label">Observaciones</span>
+            <span class="detail-value">@(string.IsNullOrWhiteSpace(Model.Observaciones) ? "Sin observaciones registradas." : Model.Observaciones)</span>
+        </div>
+    </div>
+</div>
+
+<div class="form-actions mt-3">
+    @if (User.PuedeModificarExpedientes())
+    {
+        <a class="btn btn-primary" asp-action="EditarExpediente" asp-route-identificacion="@Model.IdentificacionEstudiante">Editar expediente</a>
+    }
+    @if (User.PuedeEliminarExpedientes())
+    {
+        <a class="btn btn-outline-danger" asp-action="EliminarExpediente" asp-route-identificacion="@Model.IdentificacionEstudiante">Eliminar</a>
+    }
+    <a class="btn btn-outline-secondary" asp-action="ObtenerExpedientes">Volver al listado</a>
+</div>

@@ -12,7 +12,7 @@ public class DocumentoRepository(ApplicationDbContext context) : IDocumentoRepos
         return await context.Documentos
             .Include(x => x.TipoDocumento)
             .Include(x => x.Estado)
-            .Where(x => x.ExpedienteId == identificacionEstudiante)
+            .Where(x => x.IdentificacionEstudiante == identificacionEstudiante)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }

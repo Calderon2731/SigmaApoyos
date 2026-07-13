@@ -7,6 +7,6 @@ namespace SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedie
 {
     public interface IObtenerExpedientePorIdService
     {
-        Task<ExpedienteDto?> ObtenerPorIdAsync(string identificacionEstudiante, CancellationToken cancellationToken = default);
+        Task<ExpedienteDto?> ObtenerPorIdentificacionAsync(string identificacionEstudiante, CancellationToken cancellationToken = default);
     }
 }

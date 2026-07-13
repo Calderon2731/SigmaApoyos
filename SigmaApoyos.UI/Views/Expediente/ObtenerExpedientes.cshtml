@@ -1,0 +1,117 @@
+@model IEnumerable<SigmaApoyos.Application.DTOs.Expedientes.ExpedienteDto>
+
+@{
+    ViewData["Title"] = "Expedientes";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Gestión estudiantil</span>
+        <h1 class="page-title">Expedientes</h1>
+        <p class="page-subtitle">Consulta y administra los expedientes de adecuación.</p>
+    </div>
+    @if (User.PuedeCrearExpedientes())
+    {
+        <a class="btn btn-primary" asp-controller="Expediente" asp-action="CrearExpediente">+ Nuevo expediente</a>
+    }
+</div>
+
+<form class="search-panel" asp-action="ObtenerExpedientes" method="get">
+    <div class="row g-2 align-items-center">
+        <div class="col-md">
+            <div class="search-input">
+                <span class="search-glyph" aria-hidden="true">⌕</span>
+                <input class="form-control" type="text" name="identificacion"
+                       value="@Context.Request.Query["identificacion"]" placeholder="Buscar por identificación del estudiante" />
+            </div>
+        </div>
+        <div class="col-md-auto d-grid">
+            <button class="btn btn-outline-primary" type="submit">Buscar expediente</button>
+        </div>
+    </div>
+</form>
+
+<div class="surface-card overflow-hidden">
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Identificación</th>
+                        <th>Estudiante</th>
+                        <th>Nacimiento</th>
+                        <th>Encargado</th>
+                        <th>Tipo de adecuación</th>
+                        <th>Estado</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var expediente in Model)
+                    {
+                        <tr>
+                            <td><strong>@expediente.IdentificacionEstudiante</strong></td>
+                            <td>
+                                <strong class="d-block text-nowrap">@expediente.Nombre @expediente.PrimerApellido</strong>
+                                <small class="text-muted">@expediente.SegundoApellido</small>
+                            </td>
+                            <td class="text-nowrap">@expediente.FechaNacimiento.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <span class="d-block text-nowrap">@expediente.NombreEncargado</span>
+                                <small class="text-muted">@expediente.TelefonoEncargado</small>
+                            </td>
+                            <td>
+                                @if (expediente.IdTipoAdecuacion == 1)
+                                {
+                                    <span class="type-badge">Significativa</span>
+                                }
+                                else if (expediente.IdTipoAdecuacion == 2)
+                                {
+                                    <span class="type-badge">No significativa</span>
+                                }
+                                else if (expediente.IdTipoAdecuacion == 3)
+                                {
+                                    <span class="type-badge">De acceso</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-neutral">No definida</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="status-badge @(expediente.IdEstado == 2 ? "status-active" : "status-inactive")">
+                                    @(expediente.IdEstado == 2 ? "Activo" : "Inactivo")
+                                </span>
+                            </td>
+                            <td>
+                                <div class="table-actions justify-content-end">
+                                    <a class="btn btn-sm btn-outline-primary" asp-action="DetallesExpediente"
+                                       asp-route-identificacion="@expediente.IdentificacionEstudiante">Ver</a>
+                                    @if (User.PuedeModificarExpedientes())
+                                    {
+                                        <a class="btn btn-sm btn-outline-secondary" asp-action="EditarExpediente"
+                                           asp-route-identificacion="@expediente.IdentificacionEstudiante">Editar</a>
+                                    }
+                                    @if (User.PuedeEliminarExpedientes())
+                                    {
+                                        <a class="btn btn-sm btn-outline-danger" asp-action="EliminarExpediente"
+                                           asp-route-identificacion="@expediente.IdentificacionEstudiante">Eliminar</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-icon">EX</div>
+            <h2>No hay expedientes para mostrar</h2>
+            <p class="mb-0">Prueba con otra identificación o registra el primer expediente.</p>
+        </div>
+    }
+</div>

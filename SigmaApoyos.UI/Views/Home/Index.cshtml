@@ -1,8 +1,65 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero-card mb-4">
+    <div class="hero-content">
+        <span class="hero-kicker">Liceo de Calle Fallas</span>
+        <h1 class="hero-title">Apoyos que impulsan cada historia.</h1>
+        <p class="hero-copy mb-4">
+            Administra expedientes, documentos y adecuaciones estudiantiles desde un espacio seguro, claro y centralizado.
+        </p>
+        @if (User.Identity?.IsAuthenticated != true)
+        {
+            <a class="btn btn-light btn-lg px-4" asp-area="Identity" asp-page="/Account/Login">Ingresar al sistema</a>
+        }
+        else if (User.PuedeLeerExpedientes())
+        {
+            <a class="btn btn-light btn-lg px-4" asp-controller="Expediente" asp-action="ObtenerExpedientes">Ver expedientes</a>
+        }
+    </div>
+</section>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="page-header mt-5">
+        <div>
+            <span class="page-eyebrow">Acceso rápido</span>
+            <h2 class="page-title h3">¿Qué deseas gestionar?</h2>
+            <p class="page-subtitle">Las opciones disponibles dependen de tu rol dentro del sistema.</p>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        @if (User.PuedeLeerExpedientes())
+        {
+            <div class="col-md-6 col-lg-4">
+                <a class="surface-card quick-card d-block" asp-controller="Expediente" asp-action="ObtenerExpedientes">
+                    <span class="quick-icon">EX</span>
+                    <h2>Expedientes</h2>
+                    <p>Consulta y administra la información de los estudiantes.</p>
+                </a>
+            </div>
+        }
+        @if (User.PuedeLeerDocumentos())
+        {
+            <div class="col-md-6 col-lg-4">
+                <a class="surface-card quick-card d-block" asp-controller="Documento" asp-action="ObtenerDocumentos">
+                    <span class="quick-icon">PDF</span>
+                    <h2>Documentos</h2>
+                    <p>Gestiona los archivos asociados a cada expediente.</p>
+                </a>
+            </div>
+        }
+        @if (User.PuedeGestionarUsuarios())
+        {
+            <div class="col-md-6 col-lg-4">
+                <a class="surface-card quick-card d-block" asp-controller="Usuario" asp-action="ObtenerUsuarios">
+                    <span class="quick-icon">US</span>
+                    <h2>Usuarios</h2>
+                    <p>Administra accesos, roles y estados de las cuentas.</p>
+                </a>
+            </div>
+        }
+    </div>
+}

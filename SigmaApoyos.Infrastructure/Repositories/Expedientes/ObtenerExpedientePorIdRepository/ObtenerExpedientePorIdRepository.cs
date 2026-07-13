@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SigmaApoyos.Application.DTOs.Expedientes;
 using SigmaApoyos.Application.Interfaces.Repositories.Expedientes;
 using SigmaApoyos.Domain.Entities;
 using SigmaApoyos.Infrastructure.Persistence;
@@ -16,12 +17,25 @@ namespace SigmaApoyos.Infrastructure.Repositories.Expedientes.ObtenerExpedienteP
         {
             _context = context;
         }
-        public async Task<Expediente?> ObtenerPorIdAsync(string identificacionEstudiante, CancellationToken cancellationToken = default)
+        public async Task<ExpedienteDto?> ObtenerPorIdAsync(string identificacionEstudiante, CancellationToken cancellationToken)
         {
             return await _context.Expedientes
-                .Include(x => x.TipoAdecuacion)
-                .Include(x => x.Estado)
-                .FirstOrDefaultAsync(x => x.IdentificacionEstudiante == identificacionEstudiante, cancellationToken);
+                .AsNoTracking()
+                .Where(e => e.IdentificacionEstudiante == identificacionEstudiante)
+                .Select(expediente => new ExpedienteDto
+                {
+                    IdentificacionEstudiante = expediente.IdentificacionEstudiante,
+                    Nombre = expediente.Nombre,
+                    PrimerApellido = expediente.PrimerApellido,
+                    SegundoApellido = expediente.SegundoApellido,
+                    FechaNacimiento = expediente.FechaNacimiento,
+                    NombreEncargado = expediente.NombreEncargado,
+                    TelefonoEncargado = expediente.TelefonoEncargado,
+                    Observaciones = expediente.Observaciones,
+                    IdTipoAdecuacion = expediente.IdTipoAdecuacion,
+                    IdEstado = expediente.IdEstado
+                })
+                .FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

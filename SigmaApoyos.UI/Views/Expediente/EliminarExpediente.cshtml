@@ -1,0 +1,37 @@
+@model SigmaApoyos.Application.DTOs.Expedientes.ExpedienteDto
+
+@{
+    ViewData["Title"] = "Eliminar expediente";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Acción irreversible</span>
+        <h1 class="page-title">Eliminar expediente</h1>
+        <p class="page-subtitle">Revisa la información antes de confirmar.</p>
+    </div>
+</div>
+
+<div class="surface-card danger-card overflow-hidden">
+    <div class="danger-banner">
+        <strong>¿Deseas eliminar definitivamente este expediente?</strong>
+        <p class="mb-0 mt-1 small">Esta acción no se puede deshacer y puede afectar sus documentos asociados.</p>
+    </div>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="detail-label">Identificación</span>
+            <span class="detail-value">@Model.IdentificacionEstudiante</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Estudiante</span>
+            <span class="detail-value">@Model.Nombre @Model.PrimerApellido @Model.SegundoApellido</span>
+        </div>
+    </div>
+    <form class="card-body-comfort pt-3" asp-action="ConfirmarEliminarExpediente" method="post">
+        <input type="hidden" name="identificacion" value="@Model.IdentificacionEstudiante" />
+        <div class="form-actions">
+            <button class="btn btn-danger" type="submit">Sí, eliminar expediente</button>
+            <a class="btn btn-outline-secondary" asp-action="ObtenerExpedientes">Cancelar</a>
+        </div>
+    </form>
+</div>

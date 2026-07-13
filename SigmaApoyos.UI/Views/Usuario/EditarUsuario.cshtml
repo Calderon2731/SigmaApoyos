@@ -1,0 +1,70 @@
+@model SigmaApoyos.Application.DTOs.Usuarios.UpdateUsuarioDto
+
+@{
+    ViewData["Title"] = "Editar usuario";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Administración de acceso</span>
+        <h1 class="page-title">Editar usuario</h1>
+        <p class="page-subtitle">Actualiza los datos personales, el rol o el estado de la cuenta.</p>
+    </div>
+</div>
+
+<form asp-action="EditarUsuario" method="post">
+    <div class="surface-card">
+        <div class="card-header-clean">
+            <h2 class="h5 fw-bold mb-1">Información de la cuenta</h2>
+            <p class="form-hint mb-0">Los cambios de rol afectarán los permisos en el siguiente acceso.</p>
+        </div>
+        <div class="card-body-comfort">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input asp-for="Id" type="hidden" />
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Nombre"></label>
+                    <input class="form-control" asp-for="Nombre" />
+                    <span asp-validation-for="Nombre"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="PrimerApellido"></label>
+                    <input class="form-control" asp-for="PrimerApellido" />
+                    <span asp-validation-for="PrimerApellido"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="SegundoApellido"></label>
+                    <input class="form-control" asp-for="SegundoApellido" />
+                    <span asp-validation-for="SegundoApellido"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Email"></label>
+                    <input class="form-control" asp-for="Email" type="email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="RoleName">Rol</label>
+                    <select class="form-select" asp-for="RoleName" asp-items="ViewBag.Roles">
+                        <option value="">Seleccione un rol</option>
+                    </select>
+                    <span asp-validation-for="RoleName"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="IdEstado">Estado</label>
+                    <select class="form-select" asp-for="IdEstado" asp-items="ViewBag.Estados">
+                        <option value="">Seleccione un estado</option>
+                    </select>
+                    <span asp-validation-for="IdEstado"></span>
+                </div>
+                <div class="col-12 form-actions">
+                    <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                    <a class="btn btn-outline-secondary" asp-action="ObtenerUsuarios">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

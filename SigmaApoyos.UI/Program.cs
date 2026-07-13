@@ -1,21 +1,51 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
 using SigmaApoyos.Infrastructure;
 using SigmaApoyos.Infrastructure.Identity;
+using SigmaApoyos.Infrastructure.Identity.Seed;
 using SigmaApoyos.Infrastructure.Persistence;
+using SigmaApoyos.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Home/AccessDenied";
+    options.Events.OnValidatePrincipal = async context =>
+    {
+        if (context.Principal == null)
+        {
+            context.RejectPrincipal();
+            await context.HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return;
+        }
+
+        var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+        var user = await userManager.GetUserAsync(context.Principal);
+
+        if (user == null || user.IdEstado != 2)
+        {
+            context.RejectPrincipal();
+            await context.HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+        }
+    };
+});
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await IdentityRoleSeeder.SeedAsync(roleManager);
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -23,7 +53,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

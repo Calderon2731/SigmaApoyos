@@ -1032,6 +1032,7 @@
       },
       "SigmaApoyos.Application/1.0.0": {
         "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "10.0.9",
           "SigmaApoyos.Domain": "1.0.0"
         },
         "runtime": {

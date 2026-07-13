@@ -1,0 +1,71 @@
+@model IEnumerable<SigmaApoyos.Application.DTOs.Usuarios.UsuarioDto>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Administración</span>
+        <h1 class="page-title">Usuarios</h1>
+        <p class="page-subtitle">Gestiona las cuentas, roles y accesos al sistema.</p>
+    </div>
+    <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">+ Crear usuario</a>
+</div>
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert alert-success d-flex align-items-center mb-3" role="alert">
+        <strong>@successMessage</strong>
+    </div>
+}
+
+<div class="surface-card overflow-hidden">
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Correo electrónico</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Fecha de creación</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var usuario in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="user-avatar bg-light border">@(usuario.NombreCompleto?[0].ToString().ToUpperInvariant() ?? "U")</span>
+                                    <strong class="text-nowrap">@usuario.NombreCompleto</strong>
+                                </div>
+                            </td>
+                            <td>@usuario.Email</td>
+                            <td><span class="type-badge">@usuario.Rol</span></td>
+                            <td>
+                                <span class="status-badge @(usuario.Estado == "Activo" ? "status-active" : "status-inactive")">@usuario.Estado</span>
+                            </td>
+                            <td class="text-nowrap">@usuario.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-secondary" asp-action="EditarUsuario" asp-route-id="@usuario.Id">Editar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-icon">US</div>
+            <h2>No hay usuarios registrados</h2>
+            <p class="mb-0">Crea la primera cuenta para comenzar a asignar accesos.</p>
+        </div>
+    }
+</div>

@@ -12,17 +12,17 @@ public class DocumentoConfiguration : IEntityTypeConfiguration<Documento>
         builder.HasKey(x => x.IdDocumento);
 
         builder.Property(x => x.IdDocumento).HasColumnName("ID_DOCUMENTO");
-        builder.Property(x => x.ExpedienteId).HasColumnName("EXPEDIENTE_ID").HasMaxLength(20).IsRequired();
+        builder.Property(x => x.IdentificacionEstudiante).HasColumnName("IDENTIFICACION_ESTUDIANTE").HasMaxLength(20).IsRequired();
         builder.Property(x => x.TipoDocumentoId).HasColumnName("TIPO_DOCUMENTO").IsRequired();
         builder.Property(x => x.UsuarioId).HasColumnName("USUARIO_ID").HasMaxLength(450).IsRequired();
-        builder.Property(x => x.Consecutivo).HasColumnName("CONSECUTIVO").IsRequired();
+        builder.Property(x => x.Consecutivo).HasColumnName("CONSECUTIVO").HasMaxLength(50).IsRequired();
         builder.Property(x => x.RutaArchivo).HasColumnName("RUTA_ARCHIVO").HasMaxLength(500).IsRequired();
         builder.Property(x => x.FechaSubida).HasColumnName("FECHA_SUBIDA").IsRequired();
         builder.Property(x => x.IdEstado).HasColumnName("ID_ESTADO").IsRequired();
 
         builder.HasOne(x => x.Expediente)
             .WithMany(x => x.Documentos)
-            .HasForeignKey(x => x.ExpedienteId)
+            .HasForeignKey(x => x.IdentificacionEstudiante)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.TipoDocumento)

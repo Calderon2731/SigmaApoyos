@@ -168,15 +168,11 @@ namespace SigmaApoyos.Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDocumento"));
 
-                    b.Property<int>("Consecutivo")
-                        .HasColumnType("int")
-                        .HasColumnName("CONSECUTIVO");
-
-                    b.Property<string>("ExpedienteId")
+                    b.Property<string>("Consecutivo")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("EXPEDIENTE_ID");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("CONSECUTIVO");
 
                     b.Property<DateTime>("FechaSubida")
                         .HasColumnType("datetime2")
@@ -185,6 +181,12 @@ namespace SigmaApoyos.Infrastructure.Persistence.Migrations
                     b.Property<int>("IdEstado")
                         .HasColumnType("int")
                         .HasColumnName("ID_ESTADO");
+
+                    b.Property<string>("IdentificacionEstudiante")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("IDENTIFICACION_ESTUDIANTE");
 
                     b.Property<string>("RutaArchivo")
                         .IsRequired()
@@ -204,9 +206,9 @@ namespace SigmaApoyos.Infrastructure.Persistence.Migrations
 
                     b.HasKey("IdDocumento");
 
-                    b.HasIndex("ExpedienteId");
-
                     b.HasIndex("IdEstado");
+
+                    b.HasIndex("IdentificacionEstudiante");
 
                     b.HasIndex("TipoDocumentoId");
 
@@ -240,8 +242,8 @@ namespace SigmaApoyos.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("IDENTIFICACION_ESTUDIANTE");
 
-                    b.Property<DateOnly>("FechaNacimiento")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA_NACIMIENTO");
 
                     b.Property<int>("IdEstado")
@@ -473,15 +475,15 @@ namespace SigmaApoyos.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("SigmaApoyos.Domain.Entities.Documento", b =>
                 {
-                    b.HasOne("SigmaApoyos.Domain.Entities.Expediente", "Expediente")
-                        .WithMany("Documentos")
-                        .HasForeignKey("ExpedienteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("SigmaApoyos.Domain.Entities.Estado", "Estado")
                         .WithMany("Documentos")
                         .HasForeignKey("IdEstado")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SigmaApoyos.Domain.Entities.Expediente", "Expediente")
+                        .WithMany("Documentos")
+                        .HasForeignKey("IdentificacionEstudiante")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
