@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SigmaApoyos.UI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eea3ed1d07a3f3b9d34c88ed102f3519f9a83319")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c52f3a9618fcc02fe909e3dfd8e68fb68a8e33e")]
 [assembly: System.Reflection.AssemblyProductAttribute("SigmaApoyos.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SigmaApoyos.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

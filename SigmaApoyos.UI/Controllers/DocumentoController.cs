@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SigmaApoyos.Application.DTOs.Documentos;
+using SigmaApoyos.Application.DTOs.Auditorias;
+using SigmaApoyos.Application.Interfaces.Services.Auditoria.IRegistrarAuditoriaService;
 using SigmaApoyos.Application.Interfaces.Services.Documento.IActualizarDocumentoService;
 using SigmaApoyos.Application.Interfaces.Services.Documento.ICrearDocumentoService;
 using SigmaApoyos.Application.Interfaces.Services.Documento.IEliminarDocumentoService;
@@ -23,6 +25,7 @@ public class DocumentoController : Controller
     private readonly IEliminarDocumentoService _eliminarDocumentoService;
     private readonly IObtenerCatalogosDocumentoService _obtenerCatalogosDocumentoService;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IRegistrarAuditoriaService _registrarAuditoriaService;
 
     public DocumentoController(
         IObtenerDocumentoService obtenerDocumentoService,
@@ -31,7 +34,8 @@ public class DocumentoController : Controller
         IActualizarDocumentoService actualizarDocumentoService,
         IEliminarDocumentoService eliminarDocumentoService,
         IObtenerCatalogosDocumentoService obtenerCatalogosDocumentoService,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        IRegistrarAuditoriaService registrarAuditoriaService)
     {
         _obtenerDocumentoService = obtenerDocumentoService;
         _obtenerDocumentoPorIdService = obtenerDocumentoPorIdService;
@@ -40,6 +44,7 @@ public class DocumentoController : Controller
         _eliminarDocumentoService = eliminarDocumentoService;
         _obtenerCatalogosDocumentoService = obtenerCatalogosDocumentoService;
         _webHostEnvironment = webHostEnvironment;
+        _registrarAuditoriaService = registrarAuditoriaService;
     }
 
     public async Task<IActionResult> ObtenerDocumentos()
@@ -257,6 +262,18 @@ public class DocumentoController : Controller
         {
             return NotFound();
         }
+
+        await _registrarAuditoriaService.RegistrarAsync(new RegistrarAuditoriaDto
+        {
+            UsuarioId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+            UsuarioNombre = User.Identity?.Name ?? "Sistema",
+            Accion = "Descargar",
+            Entidad = "Documento",
+            RegistroId = documento.IdDocumento.ToString(),
+            DireccionIp = HttpContext.Connection.RemoteIpAddress?.ToString(),
+            Ruta = HttpContext.Request.Path.Value,
+            Descripcion = $"Descarga del documento {documento.Consecutivo}"
+        });
 
         return PhysicalFile(rutaFisica, "application/pdf", Path.GetFileName(rutaFisica));
     }

@@ -1,4 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+using SigmaApoyos.Application.Interfaces.Services.Auditoria.IObtenerAuditoriaPorIdService;
+using SigmaApoyos.Application.Interfaces.Services.Auditoria.IObtenerAuditoriasService;
+using SigmaApoyos.Application.Interfaces.Services.Auditoria.IRegistrarAuditoriaService;
 using SigmaApoyos.Application.Interfaces.Services.Documento.IActualizarDocumentoService;
 using SigmaApoyos.Application.Interfaces.Services.Documento.ICrearDocumentoService;
 using SigmaApoyos.Application.Interfaces.Services.Documento.IEliminarDocumentoService;
@@ -10,7 +13,25 @@ using SigmaApoyos.Application.Interfaces.Services.Expediente.ICrearExpedienteSer
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IEliminarExpedienteService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedientePorIdService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedienteService;
+using SigmaApoyos.Application.Interfaces.Services.Estado.IActualizarEstadoService;
+using SigmaApoyos.Application.Interfaces.Services.Estado.ICrearEstadoService;
+using SigmaApoyos.Application.Interfaces.Services.Estado.IEliminarEstadoService;
+using SigmaApoyos.Application.Interfaces.Services.Estado.IObtenerEstadoPorIdService;
+using SigmaApoyos.Application.Interfaces.Services.Estado.IObtenerEstadoService;
+using SigmaApoyos.Application.Interfaces.Services.TipoAdecuacion.IActualizarTipoAdecuacionService;
+using SigmaApoyos.Application.Interfaces.Services.TipoAdecuacion.ICrearTipoAdecuacionService;
+using SigmaApoyos.Application.Interfaces.Services.TipoAdecuacion.IEliminarTipoAdecuacionService;
+using SigmaApoyos.Application.Interfaces.Services.TipoAdecuacion.IObtenerTipoAdecuacionPorIdService;
+using SigmaApoyos.Application.Interfaces.Services.TipoAdecuacion.IObtenerTipoAdecuacionService;
+using SigmaApoyos.Application.Interfaces.Services.TipoDocumento.IActualizarTipoDocumentoService;
+using SigmaApoyos.Application.Interfaces.Services.TipoDocumento.ICrearTipoDocumentoService;
+using SigmaApoyos.Application.Interfaces.Services.TipoDocumento.IEliminarTipoDocumentoService;
+using SigmaApoyos.Application.Interfaces.Services.TipoDocumento.IObtenerTipoDocumentoPorIdService;
+using SigmaApoyos.Application.Interfaces.Services.TipoDocumento.IObtenerTipoDocumentoService;
 using SigmaApoyos.Application.Services.Documentos.ActualizarDocumento;
+using SigmaApoyos.Application.Services.Auditorias.ObtenerAuditoriaPorId;
+using SigmaApoyos.Application.Services.Auditorias.ObtenerAuditorias;
+using SigmaApoyos.Application.Services.Auditorias.RegistrarAuditoria;
 using SigmaApoyos.Application.Services.Documentos.CrearDocumento;
 using SigmaApoyos.Application.Services.Documentos.EliminarDocumento;
 using SigmaApoyos.Application.Services.Documentos.ObtenerCatalogosDocumento;
@@ -21,6 +42,21 @@ using SigmaApoyos.Application.Services.Expedientes.CrearExpediente;
 using SigmaApoyos.Application.Services.Expedientes.EliminarExpediente;
 using SigmaApoyos.Application.Services.Expedientes.ObtenerExpedientePorIdentificacion;
 using SigmaApoyos.Application.Services.Expedientes.ObtenerExpedientes;
+using SigmaApoyos.Application.Services.Estados.ActualizarEstado;
+using SigmaApoyos.Application.Services.Estados.CrearEstado;
+using SigmaApoyos.Application.Services.Estados.EliminarEstado;
+using SigmaApoyos.Application.Services.Estados.ObtenerEstadoPorId;
+using SigmaApoyos.Application.Services.Estados.ObtenerEstados;
+using SigmaApoyos.Application.Services.TiposAdecuacion.ActualizarTipoAdecuacion;
+using SigmaApoyos.Application.Services.TiposAdecuacion.CrearTipoAdecuacion;
+using SigmaApoyos.Application.Services.TiposAdecuacion.EliminarTipoAdecuacion;
+using SigmaApoyos.Application.Services.TiposAdecuacion.ObtenerTipoAdecuacionPorId;
+using SigmaApoyos.Application.Services.TiposAdecuacion.ObtenerTiposAdecuacion;
+using SigmaApoyos.Application.Services.TiposDocumento.ActualizarTipoDocumento;
+using SigmaApoyos.Application.Services.TiposDocumento.CrearTipoDocumento;
+using SigmaApoyos.Application.Services.TiposDocumento.EliminarTipoDocumento;
+using SigmaApoyos.Application.Services.TiposDocumento.ObtenerTipoDocumentoPorId;
+using SigmaApoyos.Application.Services.TiposDocumento.ObtenerTiposDocumento;
 
 namespace SigmaApoyos.Application
 {
@@ -39,6 +75,24 @@ namespace SigmaApoyos.Application
             services.AddScoped<IActualizarDocumentoService, ActualizarDocumento>();
             services.AddScoped<IEliminarDocumentoService, EliminarDocumento>();
             services.AddScoped<IObtenerCatalogosDocumentoService, ObtenerCatalogosDocumento>();
+            services.AddScoped<IObtenerEstadoService, ObtenerEstados>();
+            services.AddScoped<IObtenerEstadoPorIdService, ObtenerEstadoPorId>();
+            services.AddScoped<ICrearEstadoService, CrearEstado>();
+            services.AddScoped<IActualizarEstadoService, ActualizarEstado>();
+            services.AddScoped<IEliminarEstadoService, EliminarEstado>();
+            services.AddScoped<IObtenerTipoAdecuacionService, ObtenerTiposAdecuacion>();
+            services.AddScoped<IObtenerTipoAdecuacionPorIdService, ObtenerTipoAdecuacionPorId>();
+            services.AddScoped<ICrearTipoAdecuacionService, CrearTipoAdecuacion>();
+            services.AddScoped<IActualizarTipoAdecuacionService, ActualizarTipoAdecuacion>();
+            services.AddScoped<IEliminarTipoAdecuacionService, EliminarTipoAdecuacion>();
+            services.AddScoped<IObtenerTipoDocumentoService, ObtenerTiposDocumento>();
+            services.AddScoped<IObtenerTipoDocumentoPorIdService, ObtenerTipoDocumentoPorId>();
+            services.AddScoped<ICrearTipoDocumentoService, CrearTipoDocumento>();
+            services.AddScoped<IActualizarTipoDocumentoService, ActualizarTipoDocumento>();
+            services.AddScoped<IEliminarTipoDocumentoService, EliminarTipoDocumento>();
+            services.AddScoped<IObtenerAuditoriasService, ObtenerAuditorias>();
+            services.AddScoped<IObtenerAuditoriaPorIdService, ObtenerAuditoriaPorId>();
+            services.AddScoped<IRegistrarAuditoriaService, RegistrarAuditoria>();
             return services;
         }
     }

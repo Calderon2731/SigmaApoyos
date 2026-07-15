@@ -1,0 +1,11 @@
+@model IEnumerable<SigmaApoyos.Application.DTOs.TiposAdecuacion.TipoAdecuacionDto>
+@{ ViewData["Title"] = "Tipos de adecuación"; }
+
+<div class="page-header"><div><span class="page-eyebrow">Catálogos</span><h1 class="page-title">Tipos de adecuación</h1><p class="page-subtitle">Administra las clases de adecuación disponibles.</p></div><a class="btn btn-primary" asp-action="CrearTipoAdecuacion">+ Nuevo tipo</a></div>
+@if (TempData["SuccessMessage"] is string success) { <div class="alert alert-success"><strong>@success</strong></div> }
+@if (TempData["ErrorMessage"] is string error) { <div class="alert alert-danger"><strong>@error</strong></div> }
+<div class="surface-card overflow-hidden">
+    @if (Model.Any()) { <div class="table-responsive"><table class="table"><thead><tr><th>ID</th><th>Nombre</th><th class="text-end">Acciones</th></tr></thead><tbody>
+    @foreach (var tipo in Model) { <tr><td><strong>#@tipo.IdTipoAdecuacion</strong></td><td>@tipo.Nombre</td><td><div class="table-actions justify-content-end"><a class="btn btn-sm btn-outline-secondary" asp-action="EditarTipoAdecuacion" asp-route-id="@tipo.IdTipoAdecuacion">Editar</a><a class="btn btn-sm btn-outline-danger" asp-action="EliminarTipoAdecuacion" asp-route-id="@tipo.IdTipoAdecuacion">Eliminar</a></div></td></tr> }
+    </tbody></table></div> } else { <div class="empty-state"><div class="empty-icon">TA</div><h2>No hay tipos de adecuación</h2><p class="mb-0">Crea el primer tipo del catálogo.</p></div> }
+</div>

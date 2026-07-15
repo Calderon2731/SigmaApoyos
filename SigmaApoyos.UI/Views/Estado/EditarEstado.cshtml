@@ -1,0 +1,9 @@
+@model SigmaApoyos.Application.DTOs.Estados.UpdateEstadoDto
+@{ ViewData["Title"] = "Editar estado"; }
+
+<div class="page-header"><div><span class="page-eyebrow">Estado #@Model.IdEstado</span><h1 class="page-title">Editar estado</h1><p class="page-subtitle">Actualiza el nombre del estado seleccionado.</p></div></div>
+<form asp-action="EditarEstado" method="post"><div class="surface-card"><div class="card-header-clean"><h2 class="h5 fw-bold mb-0">Información del estado</h2></div><div class="card-body-comfort">
+    <div asp-validation-summary="ModelOnly"></div><input asp-for="IdEstado" type="hidden" /><div class="mb-4"><label class="form-label" asp-for="Nombre"></label><input class="form-control" asp-for="Nombre" /><span asp-validation-for="Nombre"></span></div>
+    <div class="form-actions"><button class="btn btn-primary" type="submit">Guardar cambios</button><a class="btn btn-outline-secondary" asp-action="ObtenerEstados">Cancelar</a></div>
+</div></div></form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,7 @@
+@model SigmaApoyos.Application.DTOs.Estados.EstadoDto
+@{ ViewData["Title"] = "Eliminar estado"; }
+
+<div class="page-header"><div><span class="page-eyebrow">Acción irreversible</span><h1 class="page-title">Eliminar estado</h1><p class="page-subtitle">Confirma que seleccionaste el estado correcto.</p></div></div>
+<div class="surface-card danger-card overflow-hidden"><div class="danger-banner"><strong>¿Deseas eliminar este estado?</strong><p class="mb-0 mt-1 small">No será posible eliminarlo si está asociado a otros registros.</p></div>
+<div class="detail-grid"><div class="detail-item"><span class="detail-label">ID</span><span class="detail-value">#@Model.IdEstado</span></div><div class="detail-item"><span class="detail-label">Nombre</span><span class="detail-value">@Model.Nombre</span></div></div>
+<form class="card-body-comfort pt-3" asp-action="ConfirmarEliminarEstado" method="post"><input type="hidden" name="id" value="@Model.IdEstado" /><div class="form-actions"><button class="btn btn-danger" type="submit">Sí, eliminar</button><a class="btn btn-outline-secondary" asp-action="ObtenerEstados">Cancelar</a></div></form></div>

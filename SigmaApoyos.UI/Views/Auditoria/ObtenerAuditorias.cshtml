@@ -1,0 +1,46 @@
+@model IEnumerable<SigmaApoyos.Application.DTOs.Auditorias.AuditoriaDto>
+@{ ViewData["Title"] = "Auditoría"; }
+
+<div class="page-header">
+    <div>
+        <span class="page-eyebrow">Administración</span>
+        <h1 class="page-title">Auditoría</h1>
+        <p class="page-subtitle">Historial de cambios y acciones sensibles realizadas en el sistema.</p>
+    </div>
+</div>
+
+<div class="surface-card overflow-hidden">
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table">
+                <thead><tr><th>Fecha UTC</th><th>Usuario</th><th>Acción</th><th>Entidad</th><th>Registro</th><th>Descripción</th><th class="text-end">Detalle</th></tr></thead>
+                <tbody>
+                @foreach (var auditoria in Model)
+                {
+                    var claseAccion = auditoria.Accion switch
+                    {
+                        "Crear" => "status-active",
+                        "Editar" => "status-neutral",
+                        "Eliminar" => "status-inactive",
+                        _ => "status-neutral"
+                    };
+                    <tr>
+                        <td class="text-nowrap">@auditoria.FechaUtc.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                        <td><strong class="d-block">@auditoria.UsuarioNombre</strong><small class="text-muted">@(auditoria.DireccionIp ?? "IP no disponible")</small></td>
+                        <td><span class="status-badge @claseAccion">@auditoria.Accion</span></td>
+                        <td><span class="type-badge">@auditoria.Entidad</span></td>
+                        <td class="text-break">@auditoria.RegistroId</td>
+                        <td>@auditoria.Descripcion</td>
+                        <td class="text-end"><a class="btn btn-sm btn-outline-primary" asp-action="DetallesAuditoria" asp-route-id="@auditoria.IdAuditoria">Ver</a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state"><div class="empty-icon">AU</div><h2>No hay registros de auditoría</h2><p class="mb-0">Las próximas acciones del sistema aparecerán aquí.</p></div>
+    }
+</div>

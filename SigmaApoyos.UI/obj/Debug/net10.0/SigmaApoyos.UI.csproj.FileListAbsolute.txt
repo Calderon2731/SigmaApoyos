@@ -294,5 +294,5 @@ D:\Git\SigmaApoyos\SigmaApoyos.UI\obj\Debug\net10.0\SigmaApoyos.UI.genruntimecon
 D:\Git\SigmaApoyos\SigmaApoyos.UI\obj\Debug\net10.0\ref\SigmaApoyos.UI.dll
 D:\Git\SigmaApoyos\SigmaApoyos.UI\obj\Debug\net10.0\compressed\i2nrzi9bft-{0}-kml0f18yku-kml0f18yku.gz
 D:\Git\SigmaApoyos\SigmaApoyos.UI\obj\Debug\net10.0\compressed\y4d3uamzuv-{0}-kml0f18yku-kml0f18yku.gz
-D:\Git\SigmaApoyos\SigmaApoyos.UI\obj\Debug\net10.0\compressed\zw0jfv68yb-{0}-ysmvvjscdn-ysmvvjscdn.gz
+D:\Git\SigmaApoyos\SigmaApoyos.UI\obj\Debug\net10.0\compressed\zw0jfv68yb-{0}-75tas7rx6t-75tas7rx6t.gz
 D:\Git\SigmaApoyos\SigmaApoyos.UI\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

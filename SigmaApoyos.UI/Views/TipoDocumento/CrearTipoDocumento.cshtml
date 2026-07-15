@@ -1,0 +1,6 @@
+@model SigmaApoyos.Application.DTOs.TiposDocumento.CrearTipoDocumentoDto
+@{ ViewData["Title"] = "Crear tipo de documento"; }
+<div class="page-header"><div><span class="page-eyebrow">Catálogos</span><h1 class="page-title">Crear tipo de documento</h1><p class="page-subtitle">Agrega una nueva opción al catálogo.</p></div></div>
+<form asp-action="CrearTipoDocumento" method="post"><div class="surface-card"><div class="card-header-clean"><h2 class="h5 fw-bold mb-0">Información del tipo</h2></div><div class="card-body-comfort"><div asp-validation-summary="ModelOnly"></div>
+<div class="mb-4"><label class="form-label" asp-for="Tipo"></label><input class="form-control" asp-for="Tipo" /><span asp-validation-for="Tipo"></span></div><div class="form-actions"><button class="btn btn-primary" type="submit">Crear tipo</button><a class="btn btn-outline-secondary" asp-action="ObtenerTiposDocumento">Cancelar</a></div></div></div></form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

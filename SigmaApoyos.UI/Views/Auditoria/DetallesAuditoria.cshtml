@@ -1,0 +1,25 @@
+@model SigmaApoyos.Application.DTOs.Auditorias.AuditoriaDto
+@{ ViewData["Title"] = "Detalle de auditoría"; }
+
+<div class="page-header">
+    <div><span class="page-eyebrow">Registro #@Model.IdAuditoria</span><h1 class="page-title">Detalle de auditoría</h1><p class="page-subtitle">Información registrada automáticamente por Sigma Apoyos.</p></div>
+    <span class="status-badge status-neutral">@Model.Accion</span>
+</div>
+
+<div class="surface-card overflow-hidden">
+    <div class="card-header-clean"><h2 class="h5 fw-bold mb-0">Información de la acción</h2></div>
+    <div class="detail-grid">
+        <div class="detail-item"><span class="detail-label">Fecha UTC</span><span class="detail-value">@Model.FechaUtc.ToString("dd/MM/yyyy HH:mm:ss")</span></div>
+        <div class="detail-item"><span class="detail-label">Usuario</span><span class="detail-value">@Model.UsuarioNombre</span></div>
+        <div class="detail-item"><span class="detail-label">Acción</span><span class="detail-value">@Model.Accion</span></div>
+        <div class="detail-item"><span class="detail-label">Entidad</span><span class="detail-value">@Model.Entidad</span></div>
+        <div class="detail-item"><span class="detail-label">Registro afectado</span><span class="detail-value">@Model.RegistroId</span></div>
+        <div class="detail-item"><span class="detail-label">Dirección IP</span><span class="detail-value">@(Model.DireccionIp ?? "No disponible")</span></div>
+        <div class="detail-item detail-wide"><span class="detail-label">Ruta</span><span class="detail-value">@(Model.Ruta ?? "No disponible")</span></div>
+        <div class="detail-item detail-wide"><span class="detail-label">Descripción</span><span class="detail-value">@Model.Descripcion</span></div>
+        <div class="detail-item detail-wide"><span class="detail-label">Valores anteriores</span><pre class="audit-json mb-0">@(Model.ValoresAnteriores ?? "No aplica")</pre></div>
+        <div class="detail-item detail-wide"><span class="detail-label">Valores nuevos</span><pre class="audit-json mb-0">@(Model.ValoresNuevos ?? "No aplica")</pre></div>
+    </div>
+</div>
+
+<div class="form-actions mt-3"><a class="btn btn-outline-secondary" asp-action="ObtenerAuditorias">Volver al historial</a></div>
