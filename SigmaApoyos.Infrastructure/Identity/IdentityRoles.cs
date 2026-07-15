@@ -43,6 +43,8 @@ public static class IdentityRoles
     public const string DocumentosEliminar = AdministracionTotal;
 
     public const string UsuariosAdministracion = AdministracionTotal;
+    public const string CatalogosAdministracion = AdministracionTotal;
+    public const string AuditoriaAdministracion = AdministracionTotal;
 
     public static bool EsRolVisible(string? roleName)
     {

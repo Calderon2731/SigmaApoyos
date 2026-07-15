@@ -147,6 +147,7 @@ textarea.form-control { min-height: 120px; }
 
 .danger-card { border-color: #f0cbd0; }
 .danger-banner { padding: 1rem 1.25rem; color: #8e2f3b; background: #fff2f3; border-bottom: 1px solid #f0cbd0; }
+.audit-json { padding: 1rem; border: 1px solid var(--sigma-border); border-radius: .75rem; color: #d8e7ef; background: var(--sigma-navy); font-size: .78rem; white-space: pre-wrap; word-break: break-word; }
 
 .hero-card { position: relative; overflow: hidden; padding: clamp(2rem, 5vw, 4rem); color: #fff; background: linear-gradient(130deg, var(--sigma-navy), #176b87); border-radius: 1.35rem; box-shadow: 0 24px 55px rgba(16,42,67,.2); }
 .hero-card::after { content: "Σ"; position: absolute; right: -1rem; bottom: -5.5rem; color: rgba(255,255,255,.06); font-size: 19rem; font-weight: 900; line-height: 1; }

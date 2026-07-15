@@ -1,0 +1,19 @@
+@model IEnumerable<SigmaApoyos.Application.DTOs.Estados.EstadoDto>
+@{ ViewData["Title"] = "Estados"; }
+
+<div class="page-header">
+    <div><span class="page-eyebrow">Catálogos</span><h1 class="page-title">Estados</h1><p class="page-subtitle">Administra los estados disponibles en el sistema.</p></div>
+    <a class="btn btn-primary" asp-action="CrearEstado">+ Nuevo estado</a>
+</div>
+
+@if (TempData["SuccessMessage"] is string success) { <div class="alert alert-success"><strong>@success</strong></div> }
+@if (TempData["ErrorMessage"] is string error) { <div class="alert alert-danger"><strong>@error</strong></div> }
+
+<div class="surface-card overflow-hidden">
+    @if (Model.Any())
+    {
+        <div class="table-responsive"><table class="table"><thead><tr><th>ID</th><th>Nombre</th><th class="text-end">Acciones</th></tr></thead>
+        <tbody>@foreach (var estado in Model) { <tr><td><strong>#@estado.IdEstado</strong></td><td>@estado.Nombre</td><td><div class="table-actions justify-content-end"><a class="btn btn-sm btn-outline-secondary" asp-action="EditarEstado" asp-route-id="@estado.IdEstado">Editar</a><a class="btn btn-sm btn-outline-danger" asp-action="EliminarEstado" asp-route-id="@estado.IdEstado">Eliminar</a></div></td></tr> }</tbody></table></div>
+    }
+    else { <div class="empty-state"><div class="empty-icon">ES</div><h2>No hay estados registrados</h2><p class="mb-0">Crea el primer estado del catálogo.</p></div> }
+</div>

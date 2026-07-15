@@ -159,6 +159,83 @@ namespace SigmaApoyos.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SigmaApoyos.Domain.Entities.Auditoria", b =>
+                {
+                    b.Property<long>("IdAuditoria")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("ID_AUDITORIA");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IdAuditoria"));
+
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("ACCION");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("DESCRIPCION");
+
+                    b.Property<string>("DireccionIp")
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)")
+                        .HasColumnName("DIRECCION_IP");
+
+                    b.Property<string>("Entidad")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("ENTIDAD");
+
+                    b.Property<DateTime>("FechaUtc")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FECHA_UTC");
+
+                    b.Property<string>("RegistroId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("REGISTRO_ID");
+
+                    b.Property<string>("Ruta")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("RUTA");
+
+                    b.Property<string>("UsuarioId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("USUARIO_ID");
+
+                    b.Property<string>("UsuarioNombre")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("USUARIO_NOMBRE");
+
+                    b.Property<string>("ValoresAnteriores")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("VALORES_ANTERIORES");
+
+                    b.Property<string>("ValoresNuevos")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("VALORES_NUEVOS");
+
+                    b.HasKey("IdAuditoria");
+
+                    b.HasIndex("FechaUtc");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.HasIndex("Entidad", "RegistroId");
+
+                    b.ToTable("AUDITORIA_TB", (string)null);
+                });
+
             modelBuilder.Entity("SigmaApoyos.Domain.Entities.Documento", b =>
                 {
                     b.Property<int>("IdDocumento")

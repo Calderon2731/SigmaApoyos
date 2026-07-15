@@ -1156,7 +1156,10 @@
         },
         "runtime": {
           "bin/placeholder/SigmaApoyos.Infrastructure.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },

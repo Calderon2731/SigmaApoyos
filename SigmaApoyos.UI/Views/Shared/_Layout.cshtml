@@ -53,6 +53,19 @@
                                 <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Usuario" ? "active" : "")"
                                    asp-area="" asp-controller="Usuario" asp-action="ObtenerUsuarios">Usuarios</a>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle @(new[] { "Estado", "TipoAdecuacion", "TipoDocumento" }.Contains(ViewContext.RouteData.Values["controller"]?.ToString()) ? "active" : "")"
+                                   href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catálogos</a>
+                                <ul class="dropdown-menu shadow border-0 mt-lg-2">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Estado" asp-action="ObtenerEstados">Estados</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="TipoAdecuacion" asp-action="ObtenerTiposAdecuacion">Tipos de adecuación</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="TipoDocumento" asp-action="ObtenerTiposDocumento">Tipos de documento</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Auditoria" ? "active" : "")"
+                                   asp-area="" asp-controller="Auditoria" asp-action="ObtenerAuditorias">Auditoría</a>
+                            </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />

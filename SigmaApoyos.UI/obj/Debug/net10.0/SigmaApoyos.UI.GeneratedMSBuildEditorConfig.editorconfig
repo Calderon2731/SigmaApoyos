@@ -43,6 +43,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Auditoria/DetallesAuditoria.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRvcmlhXERldGFsbGVzQXVkaXRvcmlhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Auditoria/ObtenerAuditorias.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVkaXRvcmlhXE9idGVuZXJBdWRpdG9yaWFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Documento/CrearDocumento.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRvXENyZWFyRG9jdW1lbnRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -61,6 +69,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Documento/ObtenerDocumentos.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRvXE9idGVuZXJEb2N1bWVudG9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Estado/CrearEstado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0YWRvXENyZWFyRXN0YWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Estado/EditarEstado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0YWRvXEVkaXRhckVzdGFkby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Estado/EliminarEstado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0YWRvXEVsaW1pbmFyRXN0YWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Estado/ObtenerEstados.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXN0YWRvXE9idGVuZXJFc3RhZG9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Expediente/CrearExpediente.cshtml]
@@ -105,6 +129,38 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/TipoAdecuacion/CrearTipoAdecuacion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb0FkZWN1YWNpb25cQ3JlYXJUaXBvQWRlY3VhY2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/TipoAdecuacion/EditarTipoAdecuacion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb0FkZWN1YWNpb25cRWRpdGFyVGlwb0FkZWN1YWNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/TipoAdecuacion/EliminarTipoAdecuacion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb0FkZWN1YWNpb25cRWxpbWluYXJUaXBvQWRlY3VhY2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/TipoAdecuacion/ObtenerTiposAdecuacion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb0FkZWN1YWNpb25cT2J0ZW5lclRpcG9zQWRlY3VhY2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/TipoDocumento/CrearTipoDocumento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb0RvY3VtZW50b1xDcmVhclRpcG9Eb2N1bWVudG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/TipoDocumento/EditarTipoDocumento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb0RvY3VtZW50b1xFZGl0YXJUaXBvRG9jdW1lbnRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/TipoDocumento/EliminarTipoDocumento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb0RvY3VtZW50b1xFbGltaW5hclRpcG9Eb2N1bWVudG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/TipoDocumento/ObtenerTiposDocumento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlwb0RvY3VtZW50b1xPYnRlbmVyVGlwb3NEb2N1bWVudG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Git/SigmaApoyos/SigmaApoyos.UI/Views/Usuario/EditarUsuario.cshtml]
