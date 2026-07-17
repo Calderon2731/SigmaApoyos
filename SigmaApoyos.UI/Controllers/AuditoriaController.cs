@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SigmaApoyos.Application.DTOs.Auditorias;
 using SigmaApoyos.Application.Interfaces.Services.Auditoria.IObtenerAuditoriaPorIdService;
 using SigmaApoyos.Application.Interfaces.Services.Auditoria.IObtenerAuditoriasService;
 using SigmaApoyos.Infrastructure.Identity;
@@ -20,9 +21,12 @@ public class AuditoriaController : Controller
         _obtenerAuditoriaPorIdService = obtenerAuditoriaPorIdService;
     }
 
-    public async Task<IActionResult> ObtenerAuditorias()
+    public async Task<IActionResult> ObtenerAuditorias(
+        FiltroAuditoriaDto filtro,
+        CancellationToken cancellationToken)
     {
-        return View(await _obtenerAuditoriasService.ObtenerTodosAsync());
+        ViewBag.Filtro = filtro;
+        return View(await _obtenerAuditoriasService.ObtenerTodosAsync(filtro, cancellationToken));
     }
 
     public async Task<IActionResult> DetallesAuditoria(long id)

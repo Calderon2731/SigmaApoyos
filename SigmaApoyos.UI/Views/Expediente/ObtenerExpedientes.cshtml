@@ -1,7 +1,16 @@
-@model IEnumerable<SigmaApoyos.Application.DTOs.Expedientes.ExpedienteDto>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using SigmaApoyos.Application.DTOs.Comunes
+@using SigmaApoyos.Application.DTOs.Expedientes
+@model ResultadoPaginadoDto<ExpedienteDto>
 
 @{
     ViewData["Title"] = "Expedientes";
+    var filtro = ViewBag.Filtro as FiltroExpedienteDto ?? new FiltroExpedienteDto();
+    const int registrosPorPagina = 10;
+    int primerRegistro = Model.TotalRegistros == 0 ? 0 : ((Model.PaginaActual - 1) * registrosPorPagina) + 1;
+    int ultimoRegistro = Math.Min(Model.PaginaActual * registrosPorPagina, Model.TotalRegistros);
+    int paginaInicial = Math.Max(1, Model.PaginaActual - 2);
+    int paginaFinal = Math.Min(Model.TotalPaginas, Model.PaginaActual + 2);
 }
 
 <div class="page-header">
@@ -17,22 +26,40 @@
 </div>
 
 <form class="search-panel" asp-action="ObtenerExpedientes" method="get">
-    <div class="row g-2 align-items-center">
-        <div class="col-md">
+    <div class="row g-3 align-items-end">
+        <div class="col-lg-4">
+            <label class="form-label" for="identificacion">Identificación</label>
             <div class="search-input">
                 <span class="search-glyph" aria-hidden="true">⌕</span>
-                <input class="form-control" type="text" name="identificacion"
-                       value="@Context.Request.Query["identificacion"]" placeholder="Buscar por identificación del estudiante" />
+                <input class="form-control" id="identificacion" type="text" name="identificacion"
+                       value="@filtro.Identificacion" placeholder="Identificación del estudiante" />
             </div>
         </div>
-        <div class="col-md-auto d-grid">
-            <button class="btn btn-outline-primary" type="submit">Buscar expediente</button>
+        <div class="col-md-4 col-lg-3">
+            <label class="form-label" for="idEstado">Estado</label>
+            <select class="form-select" id="idEstado" name="idEstado"
+                    asp-items="@(ViewBag.Estados as SelectList)">
+                <option value="">Todos los estados</option>
+            </select>
+        </div>
+        <div class="col-md-4 col-lg-3">
+            <label class="form-label" for="idTipoAdecuacion">Tipo de adecuación</label>
+            <select class="form-select" id="idTipoAdecuacion" name="idTipoAdecuacion"
+                    asp-items="@(ViewBag.TiposAdecuacion as SelectList)">
+                <option value="">Todos los tipos</option>
+            </select>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="d-grid gap-2 d-sm-flex d-lg-grid">
+                <button class="btn btn-outline-primary flex-fill" type="submit">Filtrar</button>
+                <a class="btn btn-outline-secondary flex-fill" asp-action="ObtenerExpedientes">Limpiar</a>
+            </div>
         </div>
     </div>
 </form>
 
 <div class="surface-card overflow-hidden">
-    @if (Model != null && Model.Any())
+    @if (Model.Registros.Any())
     {
         <div class="table-responsive">
             <table class="table">
@@ -48,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var expediente in Model)
+                    @foreach (var expediente in Model.Registros)
                     {
                         <tr>
                             <td><strong>@expediente.IdentificacionEstudiante</strong></td>
@@ -111,7 +138,50 @@
         <div class="empty-state">
             <div class="empty-icon">EX</div>
             <h2>No hay expedientes para mostrar</h2>
-            <p class="mb-0">Prueba con otra identificación o registra el primer expediente.</p>
+            <p class="mb-0">Prueba con otros filtros o registra el primer expediente.</p>
         </div>
     }
 </div>
+
+@if (Model.TotalRegistros > 0)
+{
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-3">
+        <p class="text-muted mb-0">
+            Mostrando @primerRegistro-@ultimoRegistro de @Model.TotalRegistros expedientes
+        </p>
+
+        @if (Model.TotalPaginas > 1)
+        {
+            <nav aria-label="Paginación de expedientes">
+                <ul class="pagination mb-0">
+                    <li class="page-item @(!Model.TienePaginaAnterior ? "disabled" : string.Empty)">
+                        <a class="page-link" asp-action="ObtenerExpedientes"
+                           asp-route-identificacion="@filtro.Identificacion"
+                           asp-route-idEstado="@filtro.IdEstado"
+                           asp-route-idTipoAdecuacion="@filtro.IdTipoAdecuacion"
+                           asp-route-pagina="@(Model.PaginaActual - 1)">Anterior</a>
+                    </li>
+
+                    @for (int pagina = paginaInicial; pagina <= paginaFinal; pagina++)
+                    {
+                        <li class="page-item @(pagina == Model.PaginaActual ? "active" : string.Empty)">
+                            <a class="page-link" asp-action="ObtenerExpedientes"
+                               asp-route-identificacion="@filtro.Identificacion"
+                               asp-route-idEstado="@filtro.IdEstado"
+                               asp-route-idTipoAdecuacion="@filtro.IdTipoAdecuacion"
+                               asp-route-pagina="@pagina">@pagina</a>
+                        </li>
+                    }
+
+                    <li class="page-item @(!Model.TienePaginaSiguiente ? "disabled" : string.Empty)">
+                        <a class="page-link" asp-action="ObtenerExpedientes"
+                           asp-route-identificacion="@filtro.Identificacion"
+                           asp-route-idEstado="@filtro.IdEstado"
+                           asp-route-idTipoAdecuacion="@filtro.IdTipoAdecuacion"
+                           asp-route-pagina="@(Model.PaginaActual + 1)">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    </div>
+}

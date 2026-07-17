@@ -1,12 +1,15 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SigmaApoyos.Application.DTOs.Expedientes;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IActualizarExpedienteService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.ICrearExpedienteService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IEliminarExpedienteService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedientePorIdService;
+using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedienteIntegralService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedienteService;
+using SigmaApoyos.Application.Interfaces.Services.Estado.IObtenerEstadoService;
+using SigmaApoyos.Application.Interfaces.Services.TipoAdecuacion.IObtenerTipoAdecuacionService;
 using SigmaApoyos.Infrastructure.Identity;
 
 namespace SigmaApoyos.UI.Controllers
@@ -19,42 +22,52 @@ namespace SigmaApoyos.UI.Controllers
         private readonly IActualizarExpedienteService _actualizarExpedienteService;
         private readonly ICrearExpedienteService _crearExpedienteService;
         private readonly IEliminarExpedienteService _eliminarExpedienteService;
+        private readonly IObtenerExpedienteIntegralService _obtenerExpedienteIntegralService;
+        private readonly IObtenerEstadoService _obtenerEstadoService;
+        private readonly IObtenerTipoAdecuacionService _obtenerTipoAdecuacionService;
 
         public ExpedienteController(
             IObtenerExpedienteService obtenerExpedientesService,
             IObtenerExpedientePorIdService obtenerExpedientePorIdService,
             IActualizarExpedienteService actualizarExpedienteService,
             ICrearExpedienteService crearExpedienteService,
-            IEliminarExpedienteService eliminarExpedienteService)
+            IEliminarExpedienteService eliminarExpedienteService,
+            IObtenerExpedienteIntegralService obtenerExpedienteIntegralService,
+            IObtenerEstadoService obtenerEstadoService,
+            IObtenerTipoAdecuacionService obtenerTipoAdecuacionService)
         {
             _obtenerExpedientesService = obtenerExpedientesService;
             _obtenerExpedientePorIdService = obtenerExpedientePorIdService;
             _actualizarExpedienteService = actualizarExpedienteService;
             _crearExpedienteService = crearExpedienteService;
             _eliminarExpedienteService = eliminarExpedienteService;
+            _obtenerExpedienteIntegralService = obtenerExpedienteIntegralService;
+            _obtenerEstadoService = obtenerEstadoService;
+            _obtenerTipoAdecuacionService = obtenerTipoAdecuacionService;
         }
 
-        public async Task<IActionResult> ObtenerExpedientes(string identificacion)
+        public async Task<IActionResult> ObtenerExpedientes(
+            FiltroExpedienteDto filtro,
+            CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrWhiteSpace(identificacion))
-            {
-                var expediente = await _obtenerExpedientePorIdService.ObtenerPorIdentificacionAsync(identificacion);
+            var expedientes = await _obtenerExpedientesService.ObtenerTodosAsync(filtro, cancellationToken);
+            var estados = await _obtenerEstadoService.ObtenerTodosAsync(cancellationToken);
+            var tiposAdecuacion = await _obtenerTipoAdecuacionService.ObtenerTodosAsync(cancellationToken);
 
-                var lista = new List<ExpedienteDto>();
+            ViewBag.Filtro = filtro;
+            ViewBag.Estados = new SelectList(estados, "IdEstado", "Nombre", filtro.IdEstado);
+            ViewBag.TiposAdecuacion = new SelectList(
+                tiposAdecuacion,
+                "IdTipoAdecuacion",
+                "Nombre",
+                filtro.IdTipoAdecuacion);
 
-                if (expediente != null)
-                    lista.Add(expediente);
-
-                return View(lista);
-            }
-
-            var expedientes = await _obtenerExpedientesService.ObtenerTodosAsync();
             return View(expedientes);
         }
 
         public async Task<IActionResult> DetallesExpediente(string identificacion)
         {
-            var expediente = await _obtenerExpedientePorIdService.ObtenerPorIdentificacionAsync(identificacion);
+            var expediente = await _obtenerExpedienteIntegralService.ObtenerAsync(identificacion);
 
             if (expediente == null)
             {

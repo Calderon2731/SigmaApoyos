@@ -1,8 +1,9 @@
-@model SigmaApoyos.Application.DTOs.Expedientes.ExpedienteDto
+@model SigmaApoyos.Application.DTOs.Expedientes.ExpedienteIntegralDto
 
 @{
     ViewData["Title"] = "Detalle de expediente";
-    var tipoAdecuacion = Model.IdTipoAdecuacion switch
+    var expediente = Model.Expediente;
+    var tipoAdecuacion = expediente.IdTipoAdecuacion switch
     {
         1 => "Significativa",
         2 => "No significativa",
@@ -13,12 +14,12 @@
 
 <div class="page-header">
     <div>
-        <span class="page-eyebrow">Expediente @Model.IdentificacionEstudiante</span>
-        <h1 class="page-title">@Model.Nombre @Model.PrimerApellido @Model.SegundoApellido</h1>
+        <span class="page-eyebrow">Expediente @expediente.IdentificacionEstudiante</span>
+        <h1 class="page-title">@expediente.Nombre @expediente.PrimerApellido @expediente.SegundoApellido</h1>
         <p class="page-subtitle">Información completa del estudiante y su adecuación.</p>
     </div>
-    <span class="status-badge @(Model.IdEstado == 2 ? "status-active" : "status-inactive")">
-        @(Model.IdEstado == 2 ? "Activo" : "Inactivo")
+    <span class="status-badge @(expediente.IdEstado == 2 ? "status-active" : "status-inactive")">
+        @(expediente.IdEstado == 2 ? "Activo" : "Inactivo")
     </span>
 </div>
 
@@ -29,19 +30,19 @@
     <div class="detail-grid">
         <div class="detail-item">
             <span class="detail-label">Identificación</span>
-            <span class="detail-value">@Model.IdentificacionEstudiante</span>
+            <span class="detail-value">@expediente.IdentificacionEstudiante</span>
         </div>
         <div class="detail-item">
             <span class="detail-label">Fecha de nacimiento</span>
-            <span class="detail-value">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</span>
+            <span class="detail-value">@expediente.FechaNacimiento.ToString("dd/MM/yyyy")</span>
         </div>
         <div class="detail-item">
             <span class="detail-label">Nombre del encargado</span>
-            <span class="detail-value">@Model.NombreEncargado</span>
+            <span class="detail-value">@expediente.NombreEncargado</span>
         </div>
         <div class="detail-item">
             <span class="detail-label">Teléfono del encargado</span>
-            <span class="detail-value">@Model.TelefonoEncargado</span>
+            <span class="detail-value">@expediente.TelefonoEncargado</span>
         </div>
         <div class="detail-item">
             <span class="detail-label">Tipo de adecuación</span>
@@ -49,23 +50,95 @@
         </div>
         <div class="detail-item">
             <span class="detail-label">Estado</span>
-            <span class="detail-value">@(Model.IdEstado == 2 ? "Activo" : "Inactivo")</span>
+            <span class="detail-value">@(expediente.IdEstado == 2 ? "Activo" : "Inactivo")</span>
         </div>
         <div class="detail-item detail-wide">
             <span class="detail-label">Observaciones</span>
-            <span class="detail-value">@(string.IsNullOrWhiteSpace(Model.Observaciones) ? "Sin observaciones registradas." : Model.Observaciones)</span>
+            <span class="detail-value">@(string.IsNullOrWhiteSpace(expediente.Observaciones) ? "Sin observaciones registradas." : expediente.Observaciones)</span>
         </div>
     </div>
+</div>
+
+<div class="surface-card overflow-hidden mt-4">
+    <div class="card-header-clean d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+        <div>
+            <h2 class="h5 fw-bold mb-1">Documentos asociados</h2>
+            <p class="form-hint mb-0">Archivos registrados para este expediente.</p>
+        </div>
+        @if (User.PuedeCrearDocumentos())
+        {
+            <a class="btn btn-primary" asp-controller="Documento" asp-action="CrearDocumento"
+               asp-route-identificacionEstudiante="@expediente.IdentificacionEstudiante">+ Agregar documento</a>
+        }
+    </div>
+
+    @if (Model.Documentos.Any())
+    {
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tipo de documento</th>
+                        <th>Consecutivo</th>
+                        <th>Fecha de subida</th>
+                        <th>Estado</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var documento in Model.Documentos)
+                    {
+                        <tr>
+                            <td><span class="type-badge">@documento.TipoDocumento</span></td>
+                            <td><strong>@documento.Consecutivo</strong></td>
+                            <td class="text-nowrap">@documento.FechaSubida.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <span class="status-badge @(documento.IdEstado == 2 ? "status-active" : "status-inactive")">
+                                    @documento.Estado
+                                </span>
+                            </td>
+                            <td>
+                                <div class="table-actions justify-content-end">
+                                    <a class="btn btn-sm btn-outline-primary" asp-controller="Documento" asp-action="DetallesDocumento"
+                                       asp-route-id="@documento.IdDocumento">Ver</a>
+                                    <a class="btn btn-sm btn-outline-primary" asp-controller="Documento" asp-action="DescargarDocumento"
+                                       asp-route-id="@documento.IdDocumento">Descargar</a>
+                                    @if (User.PuedeModificarDocumentos())
+                                    {
+                                        <a class="btn btn-sm btn-outline-secondary" asp-controller="Documento" asp-action="EditarDocumento"
+                                           asp-route-id="@documento.IdDocumento">Editar</a>
+                                    }
+                                    @if (User.PuedeEliminarDocumentos())
+                                    {
+                                        <a class="btn btn-sm btn-outline-danger" asp-controller="Documento" asp-action="EliminarDocumento"
+                                           asp-route-id="@documento.IdDocumento">Eliminar</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state py-5">
+            <div class="empty-icon">PDF</div>
+            <h2>Este expediente todavía no tiene documentos</h2>
+            <p class="mb-0">Los archivos que se agreguen aparecerán en esta sección.</p>
+        </div>
+    }
 </div>
 
 <div class="form-actions mt-3">
     @if (User.PuedeModificarExpedientes())
     {
-        <a class="btn btn-primary" asp-action="EditarExpediente" asp-route-identificacion="@Model.IdentificacionEstudiante">Editar expediente</a>
+        <a class="btn btn-primary" asp-action="EditarExpediente" asp-route-identificacion="@expediente.IdentificacionEstudiante">Editar expediente</a>
     }
     @if (User.PuedeEliminarExpedientes())
     {
-        <a class="btn btn-outline-danger" asp-action="EliminarExpediente" asp-route-identificacion="@Model.IdentificacionEstudiante">Eliminar</a>
+        <a class="btn btn-outline-danger" asp-action="EliminarExpediente" asp-route-identificacion="@expediente.IdentificacionEstudiante">Eliminar</a>
     }
     <a class="btn btn-outline-secondary" asp-action="ObtenerExpedientes">Volver al listado</a>
 </div>
