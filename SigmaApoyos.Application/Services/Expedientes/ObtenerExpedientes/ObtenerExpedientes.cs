@@ -1,3 +1,4 @@
+using SigmaApoyos.Application.DTOs.Comunes;
 using SigmaApoyos.Application.DTOs.Expedientes;
 using SigmaApoyos.Application.Interfaces.Repositories.Expedientes;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedienteService;
@@ -13,9 +14,10 @@ public sealed class ObtenerExpedientes : IObtenerExpedienteService
         _obtenerExpedientesRepository = obtenerExpedientesRepository;
     }
 
-    public async Task<IReadOnlyList<ExpedienteDto>> ObtenerTodosAsync(CancellationToken cancellationToken = default)
+    public async Task<ResultadoPaginadoDto<ExpedienteDto>> ObtenerTodosAsync(
+        FiltroExpedienteDto filtro,
+        CancellationToken cancellationToken = default)
     {
-        return await _obtenerExpedientesRepository.ObtenerTodosAsync(cancellationToken);
+        return await _obtenerExpedientesRepository.ObtenerTodosAsync(filtro, cancellationToken);
     }
 }
-

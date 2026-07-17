@@ -1,3 +1,4 @@
+using SigmaApoyos.Application.DTOs.Comunes;
 using SigmaApoyos.Application.DTOs.Documentos;
 using SigmaApoyos.Application.Interfaces.Repositories.Documentos;
 using SigmaApoyos.Application.Interfaces.Services.Documento.IObtenerDocumentoService;
@@ -13,8 +14,10 @@ public sealed class ObtenerDocumentos : IObtenerDocumentoService
         _obtenerDocumentosRepository = obtenerDocumentosRepository;
     }
 
-    public async Task<IReadOnlyList<DocumentoDto>> ObtenerTodosAsync(CancellationToken cancellationToken = default)
+    public async Task<ResultadoPaginadoDto<DocumentoDto>> ObtenerTodosAsync(
+        FiltroDocumentoDto filtro,
+        CancellationToken cancellationToken = default)
     {
-        return await _obtenerDocumentosRepository.ObtenerTodosAsync(cancellationToken);
+        return await _obtenerDocumentosRepository.ObtenerTodosAsync(filtro, cancellationToken);
     }
 }

@@ -1,7 +1,16 @@
-@model IEnumerable<SigmaApoyos.Application.DTOs.Documentos.DocumentoDto>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using SigmaApoyos.Application.DTOs.Comunes
+@using SigmaApoyos.Application.DTOs.Documentos
+@model ResultadoPaginadoDto<DocumentoDto>
 
 @{
     ViewData["Title"] = "Documentos";
+    var filtro = ViewBag.Filtro as FiltroDocumentoDto ?? new FiltroDocumentoDto();
+    const int registrosPorPagina = 10;
+    int primerRegistro = Model.TotalRegistros == 0 ? 0 : ((Model.PaginaActual - 1) * registrosPorPagina) + 1;
+    int ultimoRegistro = Math.Min(Model.PaginaActual * registrosPorPagina, Model.TotalRegistros);
+    int paginaInicial = Math.Max(1, Model.PaginaActual - 2);
+    int paginaFinal = Math.Min(Model.TotalPaginas, Model.PaginaActual + 2);
 }
 
 <div class="page-header">
@@ -16,8 +25,38 @@
     }
 </div>
 
+<form class="search-panel" asp-action="ObtenerDocumentos" method="get">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+            <label class="form-label" for="tipoDocumentoId">Tipo de documento</label>
+            <select class="form-select" id="tipoDocumentoId" name="tipoDocumentoId"
+                    asp-items="@(ViewBag.TiposDocumentoFiltro as SelectList)">
+                <option value="">Todos los tipos</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="idEstado">Estado</label>
+            <select class="form-select" id="idEstado" name="idEstado"
+                    asp-items="@(ViewBag.EstadosFiltro as SelectList)">
+                <option value="">Todos los estados</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="fecha">Fecha de subida</label>
+            <input class="form-control" id="fecha" name="fecha" type="date"
+                   value="@(filtro.Fecha?.ToString("yyyy-MM-dd"))" />
+        </div>
+        <div class="col-md-2">
+            <div class="d-grid gap-2 d-sm-flex d-md-grid">
+                <button class="btn btn-outline-primary flex-fill" type="submit">Filtrar</button>
+                <a class="btn btn-outline-secondary flex-fill" asp-action="ObtenerDocumentos">Limpiar</a>
+            </div>
+        </div>
+    </div>
+</form>
+
 <div class="surface-card overflow-hidden">
-    @if (Model != null && Model.Any())
+    @if (Model.Registros.Any())
     {
         <div class="table-responsive">
             <table class="table">
@@ -33,7 +72,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var documento in Model)
+                    @foreach (var documento in Model.Registros)
                     {
                         <tr>
                             <td><strong>#@documento.IdDocumento</strong></td>
@@ -69,7 +108,48 @@
         <div class="empty-state">
             <div class="empty-icon">PDF</div>
             <h2>No hay documentos registrados</h2>
-            <p class="mb-0">Los archivos asociados a expedientes aparecerán aquí.</p>
+            <p class="mb-0">Prueba con otros filtros o registra un nuevo documento.</p>
         </div>
     }
 </div>
+
+@if (Model.TotalRegistros > 0)
+{
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-3">
+        <p class="text-muted mb-0">Mostrando @primerRegistro-@ultimoRegistro de @Model.TotalRegistros documentos</p>
+
+        @if (Model.TotalPaginas > 1)
+        {
+            <nav aria-label="Paginación de documentos">
+                <ul class="pagination mb-0">
+                    <li class="page-item @(!Model.TienePaginaAnterior ? "disabled" : string.Empty)">
+                        <a class="page-link" asp-action="ObtenerDocumentos"
+                           asp-route-tipoDocumentoId="@filtro.TipoDocumentoId"
+                           asp-route-idEstado="@filtro.IdEstado"
+                           asp-route-fecha="@(filtro.Fecha?.ToString("yyyy-MM-dd"))"
+                           asp-route-pagina="@(Model.PaginaActual - 1)">Anterior</a>
+                    </li>
+
+                    @for (int pagina = paginaInicial; pagina <= paginaFinal; pagina++)
+                    {
+                        <li class="page-item @(pagina == Model.PaginaActual ? "active" : string.Empty)">
+                            <a class="page-link" asp-action="ObtenerDocumentos"
+                               asp-route-tipoDocumentoId="@filtro.TipoDocumentoId"
+                               asp-route-idEstado="@filtro.IdEstado"
+                               asp-route-fecha="@(filtro.Fecha?.ToString("yyyy-MM-dd"))"
+                               asp-route-pagina="@pagina">@pagina</a>
+                        </li>
+                    }
+
+                    <li class="page-item @(!Model.TienePaginaSiguiente ? "disabled" : string.Empty)">
+                        <a class="page-link" asp-action="ObtenerDocumentos"
+                           asp-route-tipoDocumentoId="@filtro.TipoDocumentoId"
+                           asp-route-idEstado="@filtro.IdEstado"
+                           asp-route-fecha="@(filtro.Fecha?.ToString("yyyy-MM-dd"))"
+                           asp-route-pagina="@(Model.PaginaActual + 1)">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    </div>
+}

@@ -1,8 +1,11 @@
+using SigmaApoyos.Application.DTOs.Comunes;
 using SigmaApoyos.Application.DTOs.Usuarios;
 
 namespace SigmaApoyos.Application.Interfaces.Services.Usuario.IObtenerUsuariosService;
 
 public interface IObtenerUsuariosService
 {
-    Task<IReadOnlyList<UsuarioDto>> ObtenerTodosAsync(CancellationToken cancellationToken = default);
+    Task<ResultadoPaginadoDto<UsuarioDto>> ObtenerTodosAsync(
+        FiltroUsuarioDto filtro,
+        CancellationToken cancellationToken = default);
 }

@@ -1,5 +1,16 @@
-@model IEnumerable<SigmaApoyos.Application.DTOs.Auditorias.AuditoriaDto>
-@{ ViewData["Title"] = "Auditoría"; }
+@using SigmaApoyos.Application.DTOs.Auditorias
+@using SigmaApoyos.Application.DTOs.Comunes
+@model ResultadoPaginadoDto<AuditoriaDto>
+
+@{
+    ViewData["Title"] = "Auditoría";
+    var filtro = ViewBag.Filtro as FiltroAuditoriaDto ?? new FiltroAuditoriaDto();
+    const int registrosPorPagina = 10;
+    int primerRegistro = Model.TotalRegistros == 0 ? 0 : ((Model.PaginaActual - 1) * registrosPorPagina) + 1;
+    int ultimoRegistro = Math.Min(Model.PaginaActual * registrosPorPagina, Model.TotalRegistros);
+    int paginaInicial = Math.Max(1, Model.PaginaActual - 2);
+    int paginaFinal = Math.Min(Model.TotalPaginas, Model.PaginaActual + 2);
+}
 
 <div class="page-header">
     <div>
@@ -9,38 +20,138 @@
     </div>
 </div>
 
+<form class="search-panel" asp-action="ObtenerAuditorias" method="get">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-4 col-lg-3">
+            <label class="form-label" for="usuario">Usuario</label>
+            <input class="form-control" id="usuario" name="usuario" value="@filtro.Usuario" placeholder="Nombre o correo" />
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <label class="form-label" for="accion">Acción</label>
+            <input class="form-control" id="accion" name="accion" value="@filtro.Accion" placeholder="Crear, editar..." />
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <label class="form-label" for="entidad">Entidad</label>
+            <input class="form-control" id="entidad" name="entidad" value="@filtro.Entidad" placeholder="Expediente..." />
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <label class="form-label" for="fechaDesde">Desde</label>
+            <input class="form-control" id="fechaDesde" name="fechaDesde" type="date"
+                   value="@(filtro.FechaDesde?.ToString("yyyy-MM-dd"))" />
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <label class="form-label" for="fechaHasta">Hasta</label>
+            <input class="form-control" id="fechaHasta" name="fechaHasta" type="date"
+                   value="@(filtro.FechaHasta?.ToString("yyyy-MM-dd"))" />
+        </div>
+        <div class="col-md-4 col-lg-1">
+            <div class="d-grid gap-2">
+                <button class="btn btn-outline-primary" type="submit">Filtrar</button>
+                <a class="btn btn-outline-secondary" asp-action="ObtenerAuditorias">Limpiar</a>
+            </div>
+        </div>
+    </div>
+</form>
+
 <div class="surface-card overflow-hidden">
-    @if (Model.Any())
+    @if (Model.Registros.Any())
     {
         <div class="table-responsive">
             <table class="table">
-                <thead><tr><th>Fecha UTC</th><th>Usuario</th><th>Acción</th><th>Entidad</th><th>Registro</th><th>Descripción</th><th class="text-end">Detalle</th></tr></thead>
-                <tbody>
-                @foreach (var auditoria in Model)
-                {
-                    var claseAccion = auditoria.Accion switch
-                    {
-                        "Crear" => "status-active",
-                        "Editar" => "status-neutral",
-                        "Eliminar" => "status-inactive",
-                        _ => "status-neutral"
-                    };
+                <thead>
                     <tr>
-                        <td class="text-nowrap">@auditoria.FechaUtc.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                        <td><strong class="d-block">@auditoria.UsuarioNombre</strong><small class="text-muted">@(auditoria.DireccionIp ?? "IP no disponible")</small></td>
-                        <td><span class="status-badge @claseAccion">@auditoria.Accion</span></td>
-                        <td><span class="type-badge">@auditoria.Entidad</span></td>
-                        <td class="text-break">@auditoria.RegistroId</td>
-                        <td>@auditoria.Descripcion</td>
-                        <td class="text-end"><a class="btn btn-sm btn-outline-primary" asp-action="DetallesAuditoria" asp-route-id="@auditoria.IdAuditoria">Ver</a></td>
+                        <th>Fecha UTC</th>
+                        <th>Usuario</th>
+                        <th>Acción</th>
+                        <th>Entidad</th>
+                        <th>Registro</th>
+                        <th>Descripción</th>
+                        <th class="text-end">Detalle</th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var auditoria in Model.Registros)
+                    {
+                        var claseAccion = auditoria.Accion switch
+                        {
+                            "Crear" => "status-active",
+                            "Editar" => "status-neutral",
+                            "Eliminar" => "status-inactive",
+                            _ => "status-neutral"
+                        };
+                        <tr>
+                            <td class="text-nowrap">@auditoria.FechaUtc.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                            <td>
+                                <strong class="d-block">@auditoria.UsuarioNombre</strong>
+                                <small class="text-muted">@(auditoria.DireccionIp ?? "IP no disponible")</small>
+                            </td>
+                            <td><span class="status-badge @claseAccion">@auditoria.Accion</span></td>
+                            <td><span class="type-badge">@auditoria.Entidad</span></td>
+                            <td class="text-break">@auditoria.RegistroId</td>
+                            <td>@auditoria.Descripcion</td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-primary" asp-action="DetallesAuditoria"
+                                   asp-route-id="@auditoria.IdAuditoria">Ver</a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     }
     else
     {
-        <div class="empty-state"><div class="empty-icon">AU</div><h2>No hay registros de auditoría</h2><p class="mb-0">Las próximas acciones del sistema aparecerán aquí.</p></div>
+        <div class="empty-state">
+            <div class="empty-icon">AU</div>
+            <h2>No hay registros de auditoría</h2>
+            <p class="mb-0">Prueba con otros filtros o espera nuevas acciones del sistema.</p>
+        </div>
     }
 </div>
+
+@if (Model.TotalRegistros > 0)
+{
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-3">
+        <p class="text-muted mb-0">Mostrando @primerRegistro-@ultimoRegistro de @Model.TotalRegistros registros</p>
+
+        @if (Model.TotalPaginas > 1)
+        {
+            <nav aria-label="Paginación de auditoría">
+                <ul class="pagination mb-0">
+                    <li class="page-item @(!Model.TienePaginaAnterior ? "disabled" : string.Empty)">
+                        <a class="page-link" asp-action="ObtenerAuditorias"
+                           asp-route-usuario="@filtro.Usuario"
+                           asp-route-accion="@filtro.Accion"
+                           asp-route-entidad="@filtro.Entidad"
+                           asp-route-fechaDesde="@(filtro.FechaDesde?.ToString("yyyy-MM-dd"))"
+                           asp-route-fechaHasta="@(filtro.FechaHasta?.ToString("yyyy-MM-dd"))"
+                           asp-route-pagina="@(Model.PaginaActual - 1)">Anterior</a>
+                    </li>
+
+                    @for (int pagina = paginaInicial; pagina <= paginaFinal; pagina++)
+                    {
+                        <li class="page-item @(pagina == Model.PaginaActual ? "active" : string.Empty)">
+                            <a class="page-link" asp-action="ObtenerAuditorias"
+                               asp-route-usuario="@filtro.Usuario"
+                               asp-route-accion="@filtro.Accion"
+                               asp-route-entidad="@filtro.Entidad"
+                               asp-route-fechaDesde="@(filtro.FechaDesde?.ToString("yyyy-MM-dd"))"
+                               asp-route-fechaHasta="@(filtro.FechaHasta?.ToString("yyyy-MM-dd"))"
+                               asp-route-pagina="@pagina">@pagina</a>
+                        </li>
+                    }
+
+                    <li class="page-item @(!Model.TienePaginaSiguiente ? "disabled" : string.Empty)">
+                        <a class="page-link" asp-action="ObtenerAuditorias"
+                           asp-route-usuario="@filtro.Usuario"
+                           asp-route-accion="@filtro.Accion"
+                           asp-route-entidad="@filtro.Entidad"
+                           asp-route-fechaDesde="@(filtro.FechaDesde?.ToString("yyyy-MM-dd"))"
+                           asp-route-fechaHasta="@(filtro.FechaHasta?.ToString("yyyy-MM-dd"))"
+                           asp-route-pagina="@(Model.PaginaActual + 1)">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    </div>
+}

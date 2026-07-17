@@ -12,6 +12,7 @@ using SigmaApoyos.Application.Interfaces.Services.Expediente.IActualizarExpedien
 using SigmaApoyos.Application.Interfaces.Services.Expediente.ICrearExpedienteService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IEliminarExpedienteService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedientePorIdService;
+using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedienteIntegralService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.IObtenerExpedienteService;
 using SigmaApoyos.Application.Interfaces.Services.Estado.IActualizarEstadoService;
 using SigmaApoyos.Application.Interfaces.Services.Estado.ICrearEstadoService;
@@ -41,6 +42,7 @@ using SigmaApoyos.Application.Services.Expedientes.ActualizarExpediente;
 using SigmaApoyos.Application.Services.Expedientes.CrearExpediente;
 using SigmaApoyos.Application.Services.Expedientes.EliminarExpediente;
 using SigmaApoyos.Application.Services.Expedientes.ObtenerExpedientePorIdentificacion;
+using SigmaApoyos.Application.Services.Expedientes.ObtenerExpedienteIntegral;
 using SigmaApoyos.Application.Services.Expedientes.ObtenerExpedientes;
 using SigmaApoyos.Application.Services.Estados.ActualizarEstado;
 using SigmaApoyos.Application.Services.Estados.CrearEstado;
@@ -66,6 +68,7 @@ namespace SigmaApoyos.Application
         {
             services.AddScoped<IObtenerExpedienteService, ObtenerExpedientes>();
             services.AddScoped<IObtenerExpedientePorIdService, ObtenerExpedientePorId>();
+            services.AddScoped<IObtenerExpedienteIntegralService, ObtenerExpedienteIntegral>();
             services.AddScoped<IActualizarExpedienteService, ActualizarExpediente>();
             services.AddScoped<ICrearExpedienteService, CrearExpediente>();
             services.AddScoped<IEliminarExpedienteService, EliminarExpediente>();

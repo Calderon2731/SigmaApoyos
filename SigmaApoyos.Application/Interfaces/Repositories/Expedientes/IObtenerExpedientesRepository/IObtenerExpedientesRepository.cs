@@ -1,11 +1,11 @@
-﻿using SigmaApoyos.Application.DTOs.Expedientes;
-using SigmaApoyos.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SigmaApoyos.Application.DTOs.Comunes;
+using SigmaApoyos.Application.DTOs.Expedientes;
 
 namespace SigmaApoyos.Application.Interfaces.Repositories.Expedientes;
-    public interface IObtenerExpedientesRepository
-    {
-        Task<IReadOnlyList<ExpedienteDto>> ObtenerTodosAsync(CancellationToken cancellationToken = default);
-    }
+
+public interface IObtenerExpedientesRepository
+{
+    Task<ResultadoPaginadoDto<ExpedienteDto>> ObtenerTodosAsync(
+        FiltroExpedienteDto filtro,
+        CancellationToken cancellationToken = default);
+}

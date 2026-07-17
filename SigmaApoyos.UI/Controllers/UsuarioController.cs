@@ -31,9 +31,18 @@ public class UsuarioController : Controller
         _obtenerCatalogosUsuarioService = obtenerCatalogosUsuarioService;
     }
 
-    public async Task<IActionResult> ObtenerUsuarios()
+    public async Task<IActionResult> ObtenerUsuarios(
+        FiltroUsuarioDto filtro,
+        CancellationToken cancellationToken)
     {
-        var usuarios = await _obtenerUsuariosService.ObtenerTodosAsync();
+        var usuarios = await _obtenerUsuariosService.ObtenerTodosAsync(filtro, cancellationToken);
+        var roles = await _obtenerCatalogosUsuarioService.ObtenerRolesAsync(cancellationToken);
+        var estados = await _obtenerCatalogosUsuarioService.ObtenerEstadosAsync(cancellationToken);
+
+        ViewBag.Filtro = filtro;
+        ViewBag.RolesFiltro = new SelectList(roles, filtro.Rol);
+        ViewBag.EstadosFiltro = new SelectList(estados, "Id", "Nombre", filtro.IdEstado);
+
         return View(usuarios);
     }
 

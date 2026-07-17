@@ -47,9 +47,22 @@ public class DocumentoController : Controller
         _registrarAuditoriaService = registrarAuditoriaService;
     }
 
-    public async Task<IActionResult> ObtenerDocumentos()
+    public async Task<IActionResult> ObtenerDocumentos(
+        FiltroDocumentoDto filtro,
+        CancellationToken cancellationToken)
     {
-        var documentos = await _obtenerDocumentoService.ObtenerTodosAsync();
+        var documentos = await _obtenerDocumentoService.ObtenerTodosAsync(filtro, cancellationToken);
+        var tiposDocumento = await _obtenerCatalogosDocumentoService.ObtenerTiposDocumentoAsync(cancellationToken);
+        var estados = await _obtenerCatalogosDocumentoService.ObtenerEstadosAsync(cancellationToken);
+
+        ViewBag.Filtro = filtro;
+        ViewBag.TiposDocumentoFiltro = new SelectList(
+            tiposDocumento,
+            "Id",
+            "Nombre",
+            filtro.TipoDocumentoId);
+        ViewBag.EstadosFiltro = new SelectList(estados, "Id", "Nombre", filtro.IdEstado);
+
         return View(documentos);
     }
 
@@ -66,10 +79,13 @@ public class DocumentoController : Controller
     }
 
     [Authorize(Roles = IdentityRoles.DocumentosCrear)]
-    public async Task<IActionResult> CrearDocumento()
+    public async Task<IActionResult> CrearDocumento(string? identificacionEstudiante)
     {
         await CargarCombosAsync();
-        return View();
+        return View(new CrearDocumentoDto
+        {
+            IdentificacionEstudiante = identificacionEstudiante ?? string.Empty
+        });
     }
 
     [Authorize(Roles = IdentityRoles.DocumentosCrear)]
