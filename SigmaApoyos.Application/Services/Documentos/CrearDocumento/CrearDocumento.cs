@@ -1,6 +1,7 @@
 using SigmaApoyos.Application.DTOs.Documentos;
 using SigmaApoyos.Application.Interfaces.Repositories.Documentos;
 using SigmaApoyos.Application.Interfaces.Repositories.Expedientes;
+using SigmaApoyos.Application.Interfaces.Services.Correo.INotificarCoordinadorService;
 using SigmaApoyos.Application.Interfaces.Services.Documento.ICrearDocumentoService;
 using SigmaApoyos.Domain.Entities;
 
@@ -10,13 +11,16 @@ public sealed class CrearDocumento : ICrearDocumentoService
 {
     private readonly ICrearDocumentoRepository _crearDocumentoRepository;
     private readonly IObtenerExpedientePorIdRepository _obtenerExpedientePorIdRepository;
+    private readonly INotificarCoordinadorService _notificarCoordinadorService;
 
     public CrearDocumento(
         ICrearDocumentoRepository crearDocumentoRepository,
-        IObtenerExpedientePorIdRepository obtenerExpedientePorIdRepository)
+        IObtenerExpedientePorIdRepository obtenerExpedientePorIdRepository,
+        INotificarCoordinadorService notificarCoordinadorService)
     {
         _crearDocumentoRepository = crearDocumentoRepository;
         _obtenerExpedientePorIdRepository = obtenerExpedientePorIdRepository;
+        _notificarCoordinadorService = notificarCoordinadorService;
     }
 
     public async Task<bool> CrearAsync(CrearDocumentoDto dto, CancellationToken cancellationToken = default)
@@ -40,6 +44,7 @@ public sealed class CrearDocumento : ICrearDocumentoService
         };
 
         await _crearDocumentoRepository.CrearAsync(documento, cancellationToken);
+        await _notificarCoordinadorService.NotificarNuevoDocumentoAsync(dto, cancellationToken);
         return true;
     }
 }

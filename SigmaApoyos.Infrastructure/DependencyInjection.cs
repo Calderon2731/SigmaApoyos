@@ -47,6 +47,9 @@ using SigmaApoyos.Infrastructure.Repositories.TiposDocumento.CrearTipoDocumentoR
 using SigmaApoyos.Infrastructure.Repositories.TiposDocumento.EliminarTipoDocumentoRepository;
 using SigmaApoyos.Infrastructure.Repositories.TiposDocumento.ObtenerTipoDocumentoPorIdRepository;
 using SigmaApoyos.Infrastructure.Repositories.TiposDocumento.ObtenerTiposDocumentoRepository;
+using SigmaApoyos.Application.Interfaces.Services.Correo.ICorreoService;
+using SigmaApoyos.Application.Interfaces.Services.Correo.INotificarCoordinadorService;
+using SigmaApoyos.Infrastructure.Correos;
 
 namespace SigmaApoyos.Infrastructure;
 
@@ -95,6 +98,12 @@ public static class DependencyInjection
         services.AddScoped<IObtenerAuditoriasRepository, ObtenerAuditoriasRepository>();
         services.AddScoped<IObtenerAuditoriaPorIdRepository, ObtenerAuditoriaPorIdRepository>();
         services.AddScoped<IRegistrarAuditoriaRepository, RegistrarAuditoriaRepository>();
+
+        services.Configure<CorreoSettings>(
+        configuration.GetSection(CorreoSettings.Seccion));
+
+        services.AddScoped<ICorreoService, CorreoService>();
+        services.AddScoped<INotificarCoordinadorService, NotificarCoordinadorService>();
 
         return services;
     }

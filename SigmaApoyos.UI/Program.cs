@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using SigmaApoyos.Infrastructure;
+using SigmaApoyos.Infrastructure.Correos;
 using SigmaApoyos.Infrastructure.Identity;
 using SigmaApoyos.Infrastructure.Identity.Seed;
 using SigmaApoyos.Infrastructure.Persistence;
@@ -10,13 +11,14 @@ using SigmaApoyos.Application.Interfaces.Services.Auditoria.IRegistrarAuditoriaS
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
+    .AddErrorDescriber<SpanishIdentityErrorDescriber>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<IEmailSender<ApplicationUser>, IdentityEmailSender>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.AccessDeniedPath = "/Home/AccessDenied";

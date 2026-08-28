@@ -1,0 +1,33 @@
+@page
+@model ShowRecoveryCodesModel
+@{
+    ViewData["Title"] = "Códigos de recuperación";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<section class="account-section">
+    <header class="account-section-header">
+        <span class="account-section-icon" aria-hidden="true">RC</span>
+        <div>
+            <span class="page-eyebrow">Acceso de respaldo</span>
+            <h2>Códigos de recuperación</h2>
+            <p>Cada código puede utilizarse una sola vez.</p>
+        </div>
+    </header>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <div class="alert alert-warning" role="alert">
+        <strong>Copia estos códigos ahora.</strong>
+        No volverán a mostrarse al salir de esta página.
+    </div>
+
+    <div class="recovery-code-grid" aria-label="Códigos de recuperación">
+        @foreach (var recoveryCode in Model.RecoveryCodes)
+        {
+            <code class="recovery-code">@recoveryCode</code>
+        }
+    </div>
+
+    <a asp-page="./TwoFactorAuthentication" class="btn btn-primary mt-4">Finalizar</a>
+</section>

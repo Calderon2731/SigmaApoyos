@@ -1,0 +1,105 @@
+@page
+@using Microsoft.AspNetCore.Http.Features
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = "Autenticación en dos pasos";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+    var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+}
+
+<section class="account-section">
+    <header class="account-section-header">
+        <span class="account-section-icon" aria-hidden="true">2F</span>
+        <div>
+            <span class="page-eyebrow">Seguridad adicional</span>
+            <h2>Autenticación en dos pasos</h2>
+            <p>Protege tu cuenta solicitando un código adicional al iniciar sesión.</p>
+        </div>
+    </header>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    @if (consentFeature?.CanTrack ?? true)
+    {
+        @if (Model.Is2faEnabled)
+        {
+            <div class="account-security-state account-security-state-enabled">
+                <span class="account-security-dot" aria-hidden="true"></span>
+                <div>
+                    <strong>La autenticación en dos pasos está activa</strong>
+                    <p>Tu cuenta solicita un código del autenticador al iniciar sesión.</p>
+                </div>
+            </div>
+
+            if (Model.RecoveryCodesLeft == 0)
+            {
+                <div class="alert alert-danger">
+                    <strong>No tienes códigos de recuperación disponibles.</strong>
+                    <p class="mb-0">Genera un nuevo grupo antes de necesitarlos para ingresar.</p>
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft == 1)
+            {
+                <div class="alert alert-danger">
+                    <strong>Solo tienes un código de recuperación disponible.</strong>
+                    <p class="mb-0">Te recomendamos generar un grupo nuevo.</p>
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft <= 3)
+            {
+                <div class="alert alert-warning">
+                    <strong>Te quedan @Model.RecoveryCodesLeft códigos de recuperación.</strong>
+                    <p class="mb-0">Considera generar un grupo nuevo.</p>
+                </div>
+            }
+
+            <div class="account-actions mb-4">
+                @if (Model.IsMachineRemembered)
+                {
+                    <form method="post">
+                        <button type="submit" class="btn btn-outline-secondary">Olvidar este navegador</button>
+                    </form>
+                }
+                <a asp-page="./GenerateRecoveryCodes" class="btn btn-outline-primary">Generar códigos nuevos</a>
+                <a asp-page="./Disable2fa" class="btn btn-outline-danger">Desactivar 2FA</a>
+            </div>
+        }
+        else
+        {
+            <div class="account-security-state">
+                <span class="account-security-dot" aria-hidden="true"></span>
+                <div>
+                    <strong>La autenticación en dos pasos está desactivada</strong>
+                    <p>Configura una aplicación autenticadora para agregar protección a tu cuenta.</p>
+                </div>
+            </div>
+        }
+
+        <div class="account-subsection">
+            <h3>Aplicación autenticadora</h3>
+            <p>Puedes utilizar Google Authenticator, Microsoft Authenticator u otra aplicación compatible.</p>
+            <div class="account-actions">
+                @if (!Model.HasAuthenticator)
+                {
+                    <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Configurar autenticador</a>
+                }
+                else
+                {
+                    <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Revisar configuración</a>
+                    <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-outline-danger">Restablecer autenticador</a>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <strong>No se ha aceptado la política de privacidad y cookies.</strong>
+            Debes aceptarla antes de habilitar la autenticación en dos pasos.
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

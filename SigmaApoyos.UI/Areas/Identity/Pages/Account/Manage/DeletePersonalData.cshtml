@@ -1,0 +1,42 @@
+@page
+@model DeletePersonalDataModel
+@{
+    ViewData["Title"] = "Eliminar cuenta";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<section class="account-section">
+    <header class="account-section-header">
+        <span class="account-section-icon account-section-icon-danger" aria-hidden="true">!</span>
+        <div>
+            <span class="page-eyebrow text-danger">Acción irreversible</span>
+            <h2>Eliminar cuenta</h2>
+            <p>Confirma cuidadosamente antes de continuar.</p>
+        </div>
+    </header>
+
+    <div class="alert alert-danger" role="alert">
+        <strong>La cuenta y sus datos personales se eliminarán permanentemente.</strong>
+        Esta acción no se puede deshacer.
+    </div>
+
+    <form id="delete-user" method="post" class="account-form">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        @if (Model.RequirePassword)
+        {
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Contraseña actual" />
+                <label asp-for="Input.Password">Contraseña actual</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+        }
+        <div class="account-actions">
+            <a asp-page="./PersonalData" class="btn btn-light">Cancelar</a>
+            <button class="btn btn-danger" type="submit">Eliminar cuenta definitivamente</button>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

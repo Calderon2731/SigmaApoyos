@@ -1,0 +1,29 @@
+@page
+@model GenerateRecoveryCodesModel
+@{
+    ViewData["Title"] = "Generar códigos de recuperación";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<section class="account-section">
+    <header class="account-section-header">
+        <span class="account-section-icon" aria-hidden="true">RC</span>
+        <div>
+            <span class="page-eyebrow">Acceso de respaldo</span>
+            <h2>Generar códigos de recuperación</h2>
+            <p>Estos códigos permiten ingresar si pierdes acceso a tu aplicación autenticadora.</p>
+        </div>
+    </header>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <div class="alert alert-warning" role="alert">
+        <strong>Guárdalos en un lugar seguro.</strong>
+        Al generar códigos nuevos, los anteriores dejarán de funcionar.
+    </div>
+
+    <form method="post" class="account-actions">
+        <a asp-page="./TwoFactorAuthentication" class="btn btn-light">Cancelar</a>
+        <button class="btn btn-primary" type="submit">Generar códigos nuevos</button>
+    </form>
+</section>

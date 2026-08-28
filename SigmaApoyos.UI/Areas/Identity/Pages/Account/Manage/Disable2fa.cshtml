@@ -1,0 +1,29 @@
+@page
+@model Disable2faModel
+@{
+    ViewData["Title"] = "Desactivar autenticación en dos pasos";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<section class="account-section">
+    <header class="account-section-header">
+        <span class="account-section-icon account-section-icon-danger" aria-hidden="true">!</span>
+        <div>
+            <span class="page-eyebrow text-danger">Seguridad</span>
+            <h2>Desactivar autenticación en dos pasos</h2>
+            <p>Tu cuenta dejará de solicitar el código adicional al iniciar sesión.</p>
+        </div>
+    </header>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <div class="alert alert-warning" role="alert">
+        Esta acción no elimina la clave guardada en tu aplicación. Para cambiarla debes
+        <a asp-page="./ResetAuthenticator">restablecer el autenticador</a>.
+    </div>
+
+    <form method="post" class="account-actions">
+        <a asp-page="./TwoFactorAuthentication" class="btn btn-light">Cancelar</a>
+        <button class="btn btn-danger" type="submit">Desactivar 2FA</button>
+    </form>
+</section>

@@ -1,0 +1,56 @@
+@page
+@model EnableAuthenticatorModel
+@{
+    ViewData["Title"] = "Configurar autenticador";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<section class="account-section">
+    <header class="account-section-header">
+        <span class="account-section-icon" aria-hidden="true">2F</span>
+        <div>
+            <span class="page-eyebrow">Configuración guiada</span>
+            <h2>Configurar autenticador</h2>
+            <p>Completa estos pasos para vincular una aplicación con tu cuenta.</p>
+        </div>
+    </header>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <ol class="account-step-list">
+        <li>
+            <div>
+                <h3>Instala una aplicación</h3>
+                <p>Utiliza Google Authenticator, Microsoft Authenticator u otra aplicación compatible con códigos temporales.</p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3>Agrega tu cuenta</h3>
+                <p>Escanea el código QR o escribe manualmente la siguiente clave. Los espacios y las mayúsculas no afectan el resultado.</p>
+                <kbd class="account-auth-key">@Model.SharedKey</kbd>
+                <div id="qrCode" class="account-qr-code"></div>
+                <div id="qrCodeData" data-url="@Model.AuthenticatorUri"></div>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3>Verifica el código</h3>
+                <p>Ingresa el código de seis dígitos que aparece en la aplicación.</p>
+                <form id="send-code" method="post" class="account-form">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Code" class="form-control" autocomplete="off" inputmode="numeric" placeholder="Código de verificación" />
+                        <label asp-for="Input.Code">Código de verificación</label>
+                        <span asp-validation-for="Input.Code" class="text-danger"></span>
+                    </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <button type="submit" class="btn btn-primary">Verificar y activar</button>
+                </form>
+            </div>
+        </li>
+    </ol>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,29 @@
+@page
+@model ResetAuthenticatorModel
+@{
+    ViewData["Title"] = "Restablecer autenticador";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<section class="account-section">
+    <header class="account-section-header">
+        <span class="account-section-icon account-section-icon-danger" aria-hidden="true">!</span>
+        <div>
+            <span class="page-eyebrow text-danger">Cambio de seguridad</span>
+            <h2>Restablecer autenticador</h2>
+            <p>Genera una clave nueva para volver a configurar tu aplicación.</p>
+        </div>
+    </header>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <div class="alert alert-warning" role="alert">
+        <strong>La configuración actual dejará de funcionar.</strong>
+        La autenticación en dos pasos quedará desactivada hasta que verifiques la nueva clave.
+    </div>
+
+    <form id="reset-authenticator-form" method="post" class="account-actions">
+        <a asp-page="./TwoFactorAuthentication" class="btn btn-light">Cancelar</a>
+        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Restablecer autenticador</button>
+    </form>
+</section>

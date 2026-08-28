@@ -1,5 +1,6 @@
 using SigmaApoyos.Application.DTOs.Expedientes;
 using SigmaApoyos.Application.Interfaces.Repositories.Expedientes;
+using SigmaApoyos.Application.Interfaces.Services.Correo.INotificarCoordinadorService;
 using SigmaApoyos.Application.Interfaces.Services.Expediente.ICrearExpedienteService;
 using SigmaApoyos.Domain.Entities;
 
@@ -9,13 +10,16 @@ public sealed class CrearExpediente : ICrearExpedienteService
 {
     private readonly ICrearExpedienteRepository _crearExpedienteRepository;
     private readonly IObtenerExpedientePorIdRepository _obtenerExpedientePorIdRepository;
+    private readonly INotificarCoordinadorService _notificarCoordinadorService;
 
     public CrearExpediente(
         ICrearExpedienteRepository crearExpedienteRepository,
-        IObtenerExpedientePorIdRepository obtenerExpedientePorIdRepository)
+        IObtenerExpedientePorIdRepository obtenerExpedientePorIdRepository,
+        INotificarCoordinadorService notificarCoordinadorService)
     {
         _crearExpedienteRepository = crearExpedienteRepository;
         _obtenerExpedientePorIdRepository = obtenerExpedientePorIdRepository;
+        _notificarCoordinadorService = notificarCoordinadorService;
     }
 
     public async Task<bool> CrearAsync(CrearExpedienteDto dto, CancellationToken cancellationToken = default)
@@ -42,6 +46,7 @@ public sealed class CrearExpediente : ICrearExpedienteService
         };
 
         await _crearExpedienteRepository.CrearAsync(expediente, cancellationToken);
+        await _notificarCoordinadorService.NotificarNuevoExpedienteAsync(dto, cancellationToken);
         return true;
     }
 }

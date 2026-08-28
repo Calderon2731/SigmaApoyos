@@ -1,0 +1,41 @@
+@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Datos personales";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<section class="account-section">
+    <header class="account-section-header">
+        <span class="account-section-icon" aria-hidden="true">DT</span>
+        <div>
+            <span class="page-eyebrow">Privacidad</span>
+            <h2>Datos personales</h2>
+            <p>Administra una copia de los datos asociados a tu cuenta de usuario.</p>
+        </div>
+    </header>
+
+    <div class="account-option-list">
+        <div class="account-option-card">
+            <div>
+                <h3>Descargar mis datos</h3>
+                <p>Obtén un archivo con la información personal almacenada por Identity.</p>
+            </div>
+            <form id="download-data" asp-page="DownloadPersonalData" method="post">
+                <button class="btn btn-outline-primary" type="submit">Descargar datos</button>
+            </form>
+        </div>
+
+        <div class="account-option-card account-option-danger">
+            <div>
+                <h3>Eliminar mi cuenta</h3>
+                <p>Esta acción elimina permanentemente tu usuario y no se puede deshacer.</p>
+            </div>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-outline-danger">Revisar eliminación</a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

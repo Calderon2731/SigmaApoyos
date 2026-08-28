@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SigmaApoyos.Application.Interfaces.Services.Correo.INotificarCoordinadorService;
 using SigmaApoyos.Infrastructure.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,17 +13,20 @@ public class RegisterModel : PageModel
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly INotificarCoordinadorService _notificarCoordinadorService;
     private readonly ILogger<RegisterModel> _logger;
 
     public RegisterModel(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         RoleManager<IdentityRole> roleManager,
+        INotificarCoordinadorService notificarCoordinadorService,
         ILogger<RegisterModel> logger)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
+        _notificarCoordinadorService = notificarCoordinadorService;
         _logger = logger;
     }
 
@@ -122,6 +126,11 @@ public class RegisterModel : PageModel
             {
                 await _userManager.AddToRoleAsync(user, rolAsignado);
             }
+
+            await _notificarCoordinadorService.NotificarNuevoUsuarioAsync(
+                $"{user.Nombre} {user.PrimerApellido} {user.SegundoApellido}".Trim(),
+                user.Email ?? string.Empty,
+                rolAsignado);
 
             if (User.Identity?.IsAuthenticated == true
                 && (User.IsInRole(IdentityRoles.CoordinadorAcademico) || User.IsInRole(IdentityRoles.LegacyAdministrador)))
